@@ -3,9 +3,11 @@ pragma solidity ^0.5.0;
 import "./Ownable.sol";
 import "./ERC20.sol";
 import "./ERC1155MixedFungibleMintable.sol";
+import "./TimeHelper.sol";
 
 
 contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
+  using TimeHelper for uint;
 
     mapping( address => StudentData ) addressToData;
     mapping( address => StudentLoan) addressToLoan;
@@ -84,7 +86,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
                         ) public {
 
         require(bytes(addressToData[msg.sender].name).length == 0,
-        "An address can only have one Student");
+        "An address can only have one Student associated");
 
 
 
@@ -137,36 +139,12 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     }
 
 
-
-  /*  function fundLoan(address _addressToFund) public {
-      ERC20 stableCoinContract = ERC20(stableCoinAddress);
-      uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
-      require(tokenAmount > (addressToLoan[_addressToFund].amountDAI / 100));
-    /*  if(tokenAmount > addressToBalance[_addressToFund]){
-      ownerToTypes[msg.sender][addressToData[_addressToFund].idNFT] = (tokenAmount - addressToBalance[_addressToFund])  / 100;
-      // Send back to him tokens
-      stableCoinContract.transfer(msg.sender, tokenAmount -(tokenAmount - addressToBalance[_addressToFund]));
-      } else{
-
-      };
-
-
-      //_token.safeTransferFrom(address(this), msg.sender, )
-
-        //studentHasLoan
-
-    }*/
-
-    //First you need to call an pprove transaction
+    //First you need to call an approve transaction
     function repayLoan() public{
         require(studentHasLoan[msg.sender] == true, "This address doesn't have a loan associated");
         ERC20 stableCoinContract = ERC20(stableCoinAddress);
         uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
         bool isTransferred = stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
-
-        require(isTransferred == true, "Error sending tokens to contract");
-
-
 
     }
 
