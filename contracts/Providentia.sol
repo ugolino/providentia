@@ -13,6 +13,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     mapping( address => StudentLoan) addressToLoan;
     // student balance
     mapping( address => uint) addressToBalance;
+    //Student to Interest raised
+    mapping( address => uint) studentToInterest;
     mapping( address => bool ) studentHasLoan;
     //mapping( uint => uint)  // One NFT MUST have 100 FT attached
     // address =>( idNFT => idFT )
@@ -103,19 +105,20 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         emit studentCreated(_name, _age, _country, _profAccount, _university);
     }
 
-    function requestLoan(uint _amountDAI, uint _durationLoan, uint _interestLoan, uint _startDate, uint _endDate) public{
+    // TODO: Check loan has been funded and complete the flag
+    function requestLoan(uint _amountDAI, uint _durationLoan, uint _interestLoan, uint _endDate) public{
         require( addressToLoan[msg.sender].amountDAI == 0);
-        addressToLoan[msg.sender] = StudentLoan(10000, _interestLoan, 0, _startDate, _endDate, false);
-        Loans.push(StudentLoan(10000, _interestLoan, 0, _startDate, _endDate, false ));
+        addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false);
+        Loans.push(StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false ));
     }
 
     function addMoneyPool(address _addressToFund) public {
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
       //2 different error handling for explaining the error
-      require(tokenAmount > (addressToLoan[_addressToFund].amountDAI / 100) && ( tokenAmount % 100 ) == 0 );
-      tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount / 100;
-      Investors.push(FunderTokens(msg.sender, tokenAmount / 100, _addressToFund, addressToData[_addressToFund].idNFT));
+      require(tokenAmount > (addressToLoan[_addressToFund].amountDAI / 500) && ( tokenAmount % 500 ) == 0 );
+      tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount / 500;
+      Investors.push(FunderTokens(msg.sender, tokenAmount / 500, _addressToFund, addressToData[_addressToFund].idNFT));
       stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
     }
 
@@ -130,7 +133,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
       //Best to loop Investors array
 // check user has 10K
-        require( addressToBalance[_addressFunded] == 10000);
+        require( addressToBalance[_addressFunded] == 50000);
         //Check user has at least one token
         uint amountStake = tokensToValue[msg.sender][addressToData[_addressFunded].idNFT];
         require( amountStake != 0);
@@ -145,6 +148,12 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         ERC20 stableCoinContract = ERC20(stableCoinAddress);
         uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
         bool isTransferred = stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
+        require(isTransferred == true, "Error transferring the tokens");
+        //Calculate Interest matured
+
+        uint _interest = ( 50000  * (addressToLoan[msg.sender]._interestLoan * 100) * now.diffDays(addressToLoan[msg.sender].startDate) ) / 36500
+        addressToBalance[msg.sender] -= tokenAmount - _interest;
+        studentToInterest[msg.sender] += _interest;
 
     }
 
