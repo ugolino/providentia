@@ -71,7 +71,7 @@ contract Providentia is Ownable, ERC20{
       uint idNFT;
     }
 
-    FunderTokens[] Investors;
+    FunderTokens[] public Investors;
 
     address[] sendTokens ;
 
@@ -88,7 +88,7 @@ contract Providentia is Ownable, ERC20{
     }
 
     modifier hasFundedLoan(address _addressToFund){
-      require( addressToLoan[_addressToFund].loanFunded == true, "User has already a funded loan");
+      require( addressToLoan[_addressToFund].loanFunded == false, "User has already a funded loan");
       _;
     }
 
@@ -188,7 +188,7 @@ contract Providentia is Ownable, ERC20{
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
 
-      require(tokenAmount > (addressToLoan[_addressToFund].amountDAI.div(500))
+      require(tokenAmount >= (addressToLoan[_addressToFund].amountDAI.div(100))
       && ( tokenAmount % 500 ) == 0 ,
       "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
 
