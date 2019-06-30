@@ -20,7 +20,7 @@ contract Providentia is Ownable, ERC20{
     // @dev Mapping used to store user data
     mapping( address => StudentData ) public addressToData;
     // @dev Mappiing used to store the details of the Loan
-    mapping( address => StudentLoan) addressToLoan;
+    mapping( address => StudentLoan) public addressToLoan;
     // @dev Mapping used to track the Loan of the student
     mapping( address => uint) addressToBalance;
     // @dev Mapping used to track the interest paid by the student
