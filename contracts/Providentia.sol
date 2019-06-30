@@ -5,26 +5,37 @@ import "./ERC20.sol";
 import "./ERC1155MixedFungibleMintable.sol";
 import "./TimeHelper.sol";
 
+/**
+    @title Providentia, providing students with loan
+    @dev See { insert website }
+    Note: Some values are hardcoded in order to represent a specific usecase
+ */
 
 contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
+  // @dev Library used to calculate time differences
   using BokkyPooBahsDateTimeLibrary for uint;
 
+    // @dev Mapping used to store user data
     mapping( address => StudentData ) addressToData;
+    // @dev Mappiing used to store the details of the Loan
     mapping( address => StudentLoan) addressToLoan;
-    // student balance
+    // @dev Mapping used to track the Loan of the student
     mapping( address => uint) addressToBalance;
-    //Student to Interest raised
+    // @dev Mapping used to track the interest paid by the student
     mapping( address => uint) studentToInterest;
+    // @dev Mapping to know if the user has an outstanding loan
     mapping( address => bool ) studentHasLoan;
-    //mapping( uint => uint)  // One NFT MUST have 100 FT attached
-    // address =>( idNFT => idFT )
+    // @dev address =>( idNFT => idFT )
     mapping( address => mapping( uint => uint)) ownerToTypes;
     // idNFT => amountTokens
+    // note: One NFT MUST have 100 FT attached, no more no less
     mapping( address => mapping(uint => uint) ) tokensToValue;
 
-    //TODO: Create the ERC1155 associated
+        /***********************************|
+        |        Variables and Events       |
+        |__________________________________*/
 
-    event studentCreated(
+    event studentCreated (
         string _name,
         uint8 _age,
         string _country,
@@ -32,7 +43,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         string _university
         );
 
-    struct StudentData{
+    struct StudentData {
         string name;
         uint8 age;
         string country;
@@ -41,7 +52,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         uint idNFT;
     }
 
-    struct StudentLoan{
+    struct StudentLoan {
         uint amountDAI;
         uint interestLoan;
         uint amountFunded;
@@ -51,7 +62,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         bool loanAccepted;
     }
 
-    struct FunderTokens{
+    struct FunderTokens {
       address _addressFunder;
       uint _amount;
       address _addressFunded;
@@ -75,18 +86,32 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         _token = _tokenIERC1155;
     }
 
-    //Function used to upgrade the contract address of DAI in case it changes
+    /** @notice Function used to upgrade the contract address of DAI in case it changes
+        @param _addressCoin Address of the StableCoin Contract
+    */
     function setStableCoinAddress(address _addressCoin) public onlyOwner{
         stableCoinAddress = _addressCoin;
     }
 
-    function addStudent(string memory _name,
-                        uint8 _age,
-                        string memory _country,
-                        string memory _profAccount,
-                        string memory _university,
-                        string memory _uri
-                        ) public {
+    /**
+      @notice Function used to add the Student
+      @param _name Name of the Student
+      @param _age Age of the Student
+      @param _country Country of the Student
+      @param _profAccount Github account of the Student
+      @param _university University in which the Student is attending to
+      @param _uri Used to store the JSON with the data of the Student
+    */
+    function addStudent(
+      string memory _name,
+      uint8 _age,
+      string memory _country,
+      string memory _profAccount,
+      string memory _university,
+      string memory _uri
+    )
+      public
+    {
 
         require(bytes(addressToData[msg.sender].name).length == 0,
         "An address can only have one Student associated");
@@ -103,7 +128,13 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         Datas.push(StudentData(_name, _age, _country, _university, _profAccount, _type));
         ownerToTypes[msg.sender][_type] = _id;
 
-        emit studentCreated(_name, _age, _country, _profAccount, _university);
+        emit studentCreated(
+          _name,
+          _age,
+          _country,
+          _profAccount,
+          _university
+          );
     }
 
     // TODO: Check loan has been funded and complete the flag
