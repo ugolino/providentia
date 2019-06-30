@@ -69,8 +69,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       uint idNFT;
     }
 
-    StudentLoan[] Loans;
-    StudentData[] Datas;
+  //  StudentLoan[] Loans;
     FunderTokens[] Investors;
 
     address[] sendTokens = [address(this)];
@@ -86,8 +85,9 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         _token = _tokenIERC1155;
     }
 
-    /** @notice Function used to upgrade the contract address of DAI in case it changes
-        @param _addressCoin Address of the StableCoin Contract
+    /**
+      @notice Function used to upgrade the contract address of DAI in case it changes
+      @param _addressCoin Address of the StableCoin Contract
     */
     function setStableCoinAddress(address _addressCoin) public onlyOwner{
         stableCoinAddress = _addressCoin;
@@ -125,8 +125,6 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
         addressToData[msg.sender] = StudentData(_name, _age, _country, _university,
         _profAccount, _type);
-        Datas.push(StudentData(_name, _age, _country, _university, _profAccount, _type));
-        ownerToTypes[msg.sender][_type] = _id;
 
         emit studentCreated(
           _name,
@@ -137,11 +135,23 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           );
     }
 
-    // TODO: Check loan has been funded and complete the flag
-    function requestLoan(uint _amountDAI, uint _durationLoan, uint _interestLoan, uint _endDate) public{
-        require( addressToLoan[msg.sender].amountDAI == 0);
+    /**
+      @notice Function used to initiate a Loan process and get funded
+      @param _interestLoan Interest rate the student is willing to pay
+
+      @dev For this usecase the Student can request a fixed amount of 50000 DAI
+           and have a deadline of 5 years to repay the Loan
+    */
+    function requestLoan( uint _interestLoan) public{
+      // Check if Student has already requested a loan
+        require( addressToLoan[msg.sender].amountDAI == 0, "User has already initiated a Loan process");
+        //Update the Mapping
         addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false);
-        Loans.push(StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false ));
+
+        addressToBalance[msg.sender] = 0;
+        // When requesting a loan the Student hasn't accept it yet
+        studentHasLoan[msg.sender] = false;
+        //Loans.push(StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false ));
     }
 
     // Check maximum amount is 100 tokens
@@ -164,9 +174,11 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       stableCoinContract.transfer(msg.sender, _amount);
     }
 
+    // TODO: Check loan has been funded and complete the flag
     function acceptLoan() public{
       require(addressToLoan[msg.sender].loanFunded == true);
       addressToLoan[msg.sender].loanAccepted = true;
+      //Update student has loan
     }
 
     function releaseTokens(address _addressFunded) public onlyOwner{
