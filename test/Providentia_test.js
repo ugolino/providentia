@@ -34,13 +34,21 @@ contract('Token', async function(accounts) {
     })()
   })
 
-  describe('Providentia.sol', function() {
+  describe('addStudent', function() {
     it('should add a Student ', async function() {
-      await providentia.addStudent("Mark", "18", "Canada",
+      await providentia.addStudent("Mark", 18, "Canada",
             "https://github.com/Solexplorer", "RandomUni", "");
 
-      var name = await providentia.addressToData(accounts[0]);
-      assert( name.name == "Mark");
+      var personalData = await providentia.addressToData(accounts[0]);
+      assert( personalData.name == "Mark");
+    })
+    it("shouldn't create a Student", async function(){
+
+      try{
+        await providentia.addStudent("Rob", 18, "France",
+        "https://github.com/Ugolino", "NewUni", "", {from: accounts[0]});
+      } catch(err){ assert(true, "New user hasn't been added")}
+
     })
   })
 })
