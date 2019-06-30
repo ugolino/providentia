@@ -1,13 +1,14 @@
 var Providentia = artifacts.require("./Providentia");
 var StudentToken = artifacts.require("./StudentToken.sol");
+var DaiToken = artifacts.require("./DaiToken");
 
 module.exports = (deployer, network, [owner]) => deployer
-  .then(() => deployMarketplace(deployer))
+  .then(() => deployStudentToken(deployer))
 
-function deployMarketplace(deployer){
+function deployStudentToken(deployer){
   return deployer.deploy(
       Providentia,
-      "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359",
+      DaiToken.address,
       StudentToken.address,
     );
 }
