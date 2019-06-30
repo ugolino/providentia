@@ -2,6 +2,7 @@
 const Providentia = artifacts.require('./Providentia.sol');
 const StudentToken = artifacts.require("./StudentToken");
 var BigNumber = require('bignumber.js')
+const truffleAssert = require('truffle-assertions');
 
 contract('Token', async function(accounts) {
   let token
@@ -44,11 +45,39 @@ contract('Token', async function(accounts) {
     })
     it("shouldn't create a Student", async function(){
 
-      try{
-        await providentia.addStudent("Rob", 18, "France",
-        "https://github.com/Ugolino", "NewUni", "", {from: accounts[0]});
-      } catch(err){ assert(true, "New user hasn't been added")}
+      await truffleAssert.reverts(
+        providentia.addStudent("Rob", 18, "France",
+        "https://github.com/Ugolino", "NewUni", "", {from: accounts[0]}),
+        "An address can only have one Student associated"
+      )
 
+
+    })
+
+    describe('requestLoan', function() {
+      it('should request a Loan', async function() {
+        await providentia.requestLoan(4);
+
+        var loan = await providentia.addressToLoan(accounts[0]);
+        assert(loan.amountDAI == "50000");
+
+      })
+    it('should not create a loan request', async function() {
+
+      //Try to request a loan with an address not registered
+
+      await truffleAssert.reverts(
+         providentia.requestLoan(4, { from: accounts[1]}), "Student hasn't been added yet"
+      )
+
+      //Try to request a Loan with an address that has already requesteed the loan
+      await truffleAssert .reverts(
+         providentia.requestLoan(4, {from: accounts[0]}),
+         "User has already initiated a Loan process"
+      )
+
+
+    })
     })
   })
 })
