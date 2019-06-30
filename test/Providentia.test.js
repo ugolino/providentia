@@ -1,6 +1,7 @@
 
 const Providentia = artifacts.require('./Providentia.sol');
 const StudentToken = artifacts.require("./StudentToken");
+const DaiToken = artifacts.require("./DaiToken");
 var BigNumber = require('bignumber.js')
 const truffleAssert = require('truffle-assertions');
 
@@ -20,10 +21,13 @@ contract('Token', async function(accounts) {
         tokenERC1155 = await StudentToken.deployed()
         //console.log(_ + tx.gasUsed + ' - Deploy tokenERC20')
         totalGas = totalGas.plus(tx.gasUsed)
-        providentia = await Providentia.new("0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359", tokenERC1155.address);
+        daiToken = await DaiToken.new(100000000, "DaiStableCoin", 16, "DAI");
+        daiToken = await DaiToken.deployed()
+        providentia = await Providentia.new(daiToken.address, tokenERC1155.address);
         var tx = await web3.eth.getTransactionReceipt(providentia.transactionHash)
         totalGas = totalGas.plus(tx.gasUsed)
         providentia = await Providentia.deployed();
+
         //console.log(_ + tx.gasUsed + ' - Deploy tokenERC20')
 
         //console.log(msg.sender)
