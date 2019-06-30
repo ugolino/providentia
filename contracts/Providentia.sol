@@ -154,14 +154,33 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         //Loans.push(StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false ));
     }
 
-    // Check maximum amount is 100 tokens
+    /**
+      @notice Function used to add money to the pool for the Student
+      @param _addressToFund Address of the user to be funded
+      @dev Each token costs 500 DAI and each token represents a share of the loan
+
+    */
     function addMoneyPool(address _addressToFund) public {
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
-      //2 different error handling for explaining the error
-      require(tokenAmount > (addressToLoan[_addressToFund].amountDAI / 500) && ( tokenAmount % 500 ) == 0 );
+      require( addressToLoan[_addressToFund].loanFunded == false, "User has already a funded loan")
+      require(tokenAmount > (addressToLoan[_addressToFund].amountDAI / 500)
+      && ( tokenAmount % 500 ) == 0 ,
+      "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
+
+      // If the investor sends more than the MAX_CAP which is 50K
+      if( tokenAmount > 50000 - addressToBalance[_addressToFund] ){
+        tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = 50000 - addressToBalance[_addressToFund]  / 500;
+        Investors.push(FunderTokens(msg.sender, tokenAmount / 500, _addressToFund, addressToData[_addressToFund].idNFT));
+        addressToBalance[_addressToFund] +=  50000 - addressToBalance[_addressToFund];
+        addressToLoan[_addressToFund].loanFunded = true;
+        stableCoinContract.transferFrom(msg.sender, address(this), 50000 - addressToBalance[_addressToFund]);
+        //TODO: Send back the tokens
+
+      }
       tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount / 500;
-      Investors.push(FunderTokens(msg.sender, tokenAmount / 500, _addressToFund, addressToData[_addressToFund].idNFT));
+      Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund]  / 500, _addressToFund, addressToData[_addressToFund].idNFT));
+      addressToBalance[_addressToFund] += tokenAmount;
       stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
     }
 
