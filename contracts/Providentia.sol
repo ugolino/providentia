@@ -18,7 +18,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
   using SafeMath for uint;
 
     // @dev Mapping used to store user data
-    mapping( address => StudentData ) addressToData;
+    mapping( address => StudentData ) public addressToData;
     // @dev Mappiing used to store the details of the Loan
     mapping( address => StudentLoan) addressToLoan;
     // @dev Mapping used to track the Loan of the student
@@ -156,7 +156,6 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     /**
       @notice Function used to initiate a Loan process and get funded
       @param _interestLoan Interest rate the student is willing to pay
-
       @dev For this usecase the Student can request a fixed amount of 50000 DAI
            and have a deadline of 5 years to repay the Loan
     */
