@@ -9,7 +9,8 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.0",
     "bignumber": "^1.1.0",
-    "bignumber.js": "^4.1.0"
+    "bignumber.js": "^4.1.0",
+    "truffle-assertions": "^0.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
