@@ -54,6 +54,8 @@ contract('Token', async function(accounts) {
 
     })
 
+    })
+
     describe('requestLoan', function() {
       it('should request a Loan', async function() {
         await providentia.requestLoan(4);
@@ -79,5 +81,10 @@ contract('Token', async function(accounts) {
 
     })
     })
-  })
+
+  /*describe('acceptLoan', function() {
+    it('should'n let the student accept the loan', async function() {
+
+      await providentia.acceptLoan({from: accounts[0]});
+    })*/
 })
