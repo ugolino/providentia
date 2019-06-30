@@ -21,7 +21,7 @@ contract('Token', async function(accounts) {
         tokenERC1155 = await StudentToken.deployed()
         //console.log(_ + tx.gasUsed + ' - Deploy tokenERC20')
         totalGas = totalGas.plus(tx.gasUsed)
-        daiToken = await DaiToken.new(100000000, "DaiStableCoin", 16, "DAI");
+        daiToken = await DaiToken.new(100000000, "DaiStableCoin", 16, "DAI", { from: accounts[2]});
         daiToken = await DaiToken.deployed()
         providentia = await Providentia.new(daiToken.address, tokenERC1155.address);
         var tx = await web3.eth.getTransactionReceipt(providentia.transactionHash)
@@ -84,6 +84,25 @@ contract('Token', async function(accounts) {
 
 
     })
+    })
+
+    describe('addMoneyPool', function() {
+      it('should add Money to the student Pool', async function() {
+        //I will use the owner of the account to make the Approve transaction
+        await daiToken.approve(providentia.address, 500, {from: accounts[2]});
+
+        console.log("haha");
+
+        var tkn = await daiToken.allowance(accounts[2], providentia.address, {from: accounts[2]});
+
+        console.log(tkn.toString());
+
+        await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
+
+        var arrayInv = await providentia.Investors(0);
+
+        //console.log(arrayInv);
+      })
     })
 
   /*describe('acceptLoan', function() {
