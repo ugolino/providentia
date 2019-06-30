@@ -4,6 +4,7 @@ import "./Ownable.sol";
 import "./ERC20.sol";
 import "./ERC1155MixedFungibleMintable.sol";
 import "./TimeHelper.sol";
+import "./SafeMath.sol";
 
 /**
     @title Providentia, providing students with loan
@@ -14,6 +15,7 @@ import "./TimeHelper.sol";
 contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
   // @dev Library used to calculate time differences
   using BokkyPooBahsDateTimeLibrary for uint;
+  using SafeMath for uint;
 
     // @dev Mapping used to store user data
     mapping( address => StudentData ) addressToData;
@@ -164,23 +166,23 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
       require( addressToLoan[_addressToFund].loanFunded == false, "User has already a funded loan");
-      require(tokenAmount > (addressToLoan[_addressToFund].amountDAI / 500)
+      require(tokenAmount > (addressToLoan[_addressToFund].amountDAI.div(500))
       && ( tokenAmount % 500 ) == 0 ,
       "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
 
       // If the investor sends more than the MAX_CAP which is 50K
       if( tokenAmount > 50000 - addressToBalance[_addressToFund] ){
-        tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = 50000 - addressToBalance[_addressToFund]  / 500;
-        Investors.push(FunderTokens(msg.sender, tokenAmount / 500, _addressToFund, addressToData[_addressToFund].idNFT));
-        addressToBalance[_addressToFund] +=  50000 - addressToBalance[_addressToFund];
+        tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = 50000 - addressToBalance[_addressToFund].div(500);
+        Investors.push(FunderTokens(msg.sender, tokenAmount.div(500), _addressToFund, addressToData[_addressToFund].idNFT));
+        addressToBalance[_addressToFund].add(50000 - addressToBalance[_addressToFund]);
         addressToLoan[_addressToFund].loanFunded = true;
         stableCoinContract.transferFrom(msg.sender, address(this), 50000 - addressToBalance[_addressToFund]);
         //TODO: Send back the tokens
 
       }
-      tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount / 500;
-      Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund]  / 500, _addressToFund, addressToData[_addressToFund].idNFT));
-      addressToBalance[_addressToFund] += tokenAmount;
+      tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount.div(500);
+      Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund].div(500), _addressToFund, addressToData[_addressToFund].idNFT));
+      addressToBalance[_addressToFund].add(tokenAmount);
       stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
     }
 
@@ -238,9 +240,9 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         require(isTransferred == true, "Error transferring the tokens");
         //Calculate Interest matured
 
-        uint _interest = ( 50000  * (addressToLoan[msg.sender].interestLoan * 100) * now.diffDays(addressToLoan[msg.sender].startDate) ) / 36500;
-        addressToBalance[msg.sender] -= tokenAmount - _interest;
-        studentToInterest[msg.sender] += _interest;
+        uint _interest = ( 50000 * (addressToLoan[msg.sender].interestLoan.mul(100)).mul(now.diffDays(addressToLoan[msg.sender].startDate)) ).div(36500);
+        addressToBalance[msg.sender].sub(tokenAmount.sub(_interest));
+        studentToInterest[msg.sender].add(_interest);
 
     }
 
@@ -252,7 +254,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         for(uint i = 0; i<Investors.length; i++){
           if(Investors[i]._addressFunded == _addressFunded){
             uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
-            uint share = (addressToBalance[_addressFunded] + studentToInterest[_addressFunded]) * _tokenAmount/100;
+            uint share = (addressToBalance[_addressFunded].add(studentToInterest[_addressFunded]) ).mul(_tokenAmount.div(100));
             ERC20 stableCoinContract = ERC20(stableCoinAddress);
             stableCoinContract.transfer(msg.sender, share);
           }
