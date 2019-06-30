@@ -7,7 +7,7 @@ import "./TimeHelper.sol";
 
 
 contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
-  using TimeHelper for uint;
+  using BokkyPooBahsDateTimeLibrary for uint;
 
     mapping( address => StudentData ) addressToData;
     mapping( address => StudentLoan) addressToLoan;
@@ -48,6 +48,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         uint startDate;
         uint endDate;
         bool loanFunded;
+        bool loanAccepted;
     }
 
     struct FunderTokens{
@@ -108,10 +109,11 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     // TODO: Check loan has been funded and complete the flag
     function requestLoan(uint _amountDAI, uint _durationLoan, uint _interestLoan, uint _endDate) public{
         require( addressToLoan[msg.sender].amountDAI == 0);
-        addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false);
-        Loans.push(StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false ));
+        addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false);
+        Loans.push(StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false ));
     }
 
+    // Check maximum amount is 100 tokens
     function addMoneyPool(address _addressToFund) public {
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
@@ -126,13 +128,20 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     function withdrawLoan(uint _amount) public{
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
+      //User can take only 20% each year
+
       stableCoinContract.transfer(msg.sender, _amount);
+    }
+
+    function acceptLoan() public{
+      require(addressToLoan[msg.sender].loanFunded == true);
+      addressToLoan[msg.sender].loanAccepted = true;
     }
 
     function releaseTokens(address _addressFunded) public onlyOwner{
 
       //Best to loop Investors array
-// check user has 10K
+// check user has 50K
         require( addressToBalance[_addressFunded] == 50000);
         //Check user has at least one token
         uint amountStake = tokensToValue[msg.sender][addressToData[_addressFunded].idNFT];
@@ -143,6 +152,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
 
     //First you need to call an approve transaction
+    //Check the logic here as it's a bit flawed
     function repayLoan() public{
         require(studentHasLoan[msg.sender] == true, "This address doesn't have a loan associated");
         ERC20 stableCoinContract = ERC20(stableCoinAddress);
@@ -151,10 +161,21 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         require(isTransferred == true, "Error transferring the tokens");
         //Calculate Interest matured
 
-        uint _interest = ( 50000  * (addressToLoan[msg.sender]._interestLoan * 100) * now.diffDays(addressToLoan[msg.sender].startDate) ) / 36500
+        uint _interest = ( 50000  * (addressToLoan[msg.sender].interestLoan * 100) * now.diffDays(addressToLoan[msg.sender].startDate) ) / 36500;
         addressToBalance[msg.sender] -= tokenAmount - _interest;
         studentToInterest[msg.sender] += _interest;
 
+    }
+
+    function withdrawRepaidLoan(address _addressFunded) public{
+        for(uint i = 0; i<Investors.length; i++){
+          if(Investors[i]._addressFunded == _addressFunded){
+            uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
+            uint share = (addressToBalance[_addressFunded] + studentToInterest[_addressFunded]) * _tokenAmount/100;
+            ERC20 stableCoinContract = ERC20(stableCoinAddress);
+            stableCoinContract.transfer(msg.sender, share);
+          }
+        }
     }
 
 
