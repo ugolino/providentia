@@ -22,7 +22,7 @@ contract('Token', async function(accounts) {
         providentia = await Providentia.new("0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359", tokenERC1155.address);
         var tx = await web3.eth.getTransactionReceipt(providentia.transactionHash)
         totalGas = totalGas.plus(tx.gasUsed)
-        providentia = Providentia.deployed();
+        providentia = await Providentia.deployed();
         //console.log(_ + tx.gasUsed + ' - Deploy tokenERC20')
 
         //console.log(msg.sender)
@@ -35,12 +35,12 @@ contract('Token', async function(accounts) {
   })
 
   describe('Providentia.sol', function() {
-    it('should add a Student '), async function() {
-      await providentia.addStudent("Mark", 18, "Canada",
+    it('should add a Student ', async function() {
+      await providentia.addStudent("Mark", "18", "Canada",
             "https://github.com/Solexplorer", "RandomUni", "");
 
-      var name = providentia.addressToData(accounts[0]);
-      console.log(name);
-    }
+      var name = await providentia.addressToData(accounts[0]);
+      assert( name.name == "Mark");
+    })
   })
 })
