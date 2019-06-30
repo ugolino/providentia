@@ -1,6 +1,7 @@
 
 const Providentia = artifacts.require('./Providentia.sol');
 const StudentToken = artifacts.require("./StudentToken");
+var BigNumber = require('bignumber.js')
 
 contract('Token', async function(accounts) {
   let token
