@@ -163,7 +163,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     function addMoneyPool(address _addressToFund) public {
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
-      require( addressToLoan[_addressToFund].loanFunded == false, "User has already a funded loan")
+      require( addressToLoan[_addressToFund].loanFunded == false, "User has already a funded loan");
       require(tokenAmount > (addressToLoan[_addressToFund].amountDAI / 500)
       && ( tokenAmount % 500 ) == 0 ,
       "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
@@ -184,7 +184,10 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
     }
 
-
+    /**
+      @notice Function to withdraw the loan of the Student
+      @param _amount Amount the user is willing to withdraw
+    */
     function withdrawLoan(uint _amount) public{
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
@@ -193,27 +196,39 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       stableCoinContract.transfer(msg.sender, _amount);
     }
 
-    // TODO: Check loan has been funded and complete the flag
+    /**
+      @notice Function to accept the proposed loan
+    */
     function acceptLoan() public{
       require(addressToLoan[msg.sender].loanFunded == true);
       addressToLoan[msg.sender].loanAccepted = true;
-      //Update student has loan
+      studentHasLoan[msg.sender] = true;
     }
+
+    /**
+      @notice Function to release the tokens to the Investor
+      @param _addressFunded Address of the funded User
+    */
 
     function releaseTokens(address _addressFunded) public onlyOwner{
 
-      //Best to loop Investors array
-// check user has 50K
+      // check user has 50K
         require( addressToBalance[_addressFunded] == 50000);
         //Check user has at least one token
-        uint amountStake = tokensToValue[msg.sender][addressToData[_addressFunded].idNFT];
-        require( amountStake != 0);
-
-        _token.safeTransferFrom(address(this), msg.sender, ownerToTypes[msg.sender][addressToData[_addressFunded].idNFT], amountStake, "onERC1155Received" );
+        for( uint i=0; i<Investors.length; i++){
+          if(Investors[i]._addressFunded == _addressFunded){
+            uint amountStake = tokensToValue[msg.sender][Investors[i].idNFT];
+            require( amountStake != 0);
+            _token.safeTransferFrom(address(this), msg.sender, ownerToTypes[msg.sender][Investors[i].idNFT], amountStake, "onERC1155Received" );
+          }
+        }
     }
 
 
-    //First you need to call an approve transaction
+    /**
+      @notice Function used by the Student to repay the Loan
+      @dev First you need to call an approve transaction
+    */
     //Check the logic here as it's a bit flawed
     function repayLoan() public{
         require(studentHasLoan[msg.sender] == true, "This address doesn't have a loan associated");
@@ -229,6 +244,10 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     }
 
+    /**
+      @notice Function for the Investors to withdraw their share
+      @param _addressFunded Address of the funded student
+    */
     function withdrawRepaidLoan(address _addressFunded) public{
         for(uint i = 0; i<Investors.length; i++){
           if(Investors[i]._addressFunded == _addressFunded){
