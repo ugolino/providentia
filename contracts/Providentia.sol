@@ -82,6 +82,22 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     ERC1155MixedFungibleMintable _token;
 
+    modifier hasRequestedLoan(){
+      // Check if Student has already requested a loan
+        require( addressToLoan[msg.sender].amountDAI == 0, "User has already initiated a Loan process");
+        _;
+    }
+
+    modifier hasFundedLoan(address _addressToFund){
+      require( addressToLoan[_addressToFund].loanFunded == true, "User has already a funded loan");
+      _;
+    }
+
+    modifier hasActiveLoan(){
+      require(studentHasLoan[msg.sender] == true, "This address doesn't have a loan associated");
+      _;
+    }
+
     constructor(address _stableCoinAddress, ERC1155MixedFungibleMintable _tokenIERC1155) public{
         stableCoinAddress = _stableCoinAddress;
         _token = _tokenIERC1155;
@@ -144,9 +160,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       @dev For this usecase the Student can request a fixed amount of 50000 DAI
            and have a deadline of 5 years to repay the Loan
     */
-    function requestLoan( uint _interestLoan) public{
-      // Check if Student has already requested a loan
-        require( addressToLoan[msg.sender].amountDAI == 0, "User has already initiated a Loan process");
+    function requestLoan( uint _interestLoan) public hasRequestedLoan{
+
         //Update the Mapping
         addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false);
 
@@ -162,10 +177,10 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       @dev Each token costs 500 DAI and each token represents a share of the loan
 
     */
-    function addMoneyPool(address _addressToFund) public {
+    function addMoneyPool(address _addressToFund) public hasFundedLoan(_addressToFund){
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
-      require( addressToLoan[_addressToFund].loanFunded == false, "User has already a funded loan");
+
       require(tokenAmount > (addressToLoan[_addressToFund].amountDAI.div(500))
       && ( tokenAmount % 500 ) == 0 ,
       "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
@@ -232,8 +247,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       @dev First you need to call an approve transaction
     */
     //Check the logic here as it's a bit flawed
-    function repayLoan() public{
-        require(studentHasLoan[msg.sender] == true, "This address doesn't have a loan associated");
+    function repayLoan() public hasActiveLoan{
+
         ERC20 stableCoinContract = ERC20(stableCoinAddress);
         uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
         bool isTransferred = stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
