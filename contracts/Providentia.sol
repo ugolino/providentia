@@ -165,6 +165,10 @@ contract Providentia is Ownable, ERC20{
     */
     function requestLoan( uint _interestLoan) public hasRequestedLoan{
 
+        //Check if the Student has been added before letting him request a loan
+        require(bytes(addressToData[msg.sender].name).length != 0,
+        "Student hasn't been added yet");
+
         //Update the Mapping
         addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false);
 
