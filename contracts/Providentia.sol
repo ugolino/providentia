@@ -1,8 +1,8 @@
 pragma solidity ^0.5.0;
 
+import "./ERC1155MixedFungibleMintable.sol";
 import "./Ownable.sol";
 import "./ERC20.sol";
-import "./ERC1155MixedFungibleMintable.sol";
 import "./TimeHelper.sol";
 import "./SafeMath.sol";
 
@@ -12,7 +12,7 @@ import "./SafeMath.sol";
     Note: Some values are hardcoded in order to represent a specific usecase
  */
 
-contract Providentia is Ownable, ERC20{
+contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
   // @dev Library used to calculate time differences
   using BokkyPooBahsDateTimeLibrary for uint;
   using SafeMath for uint;
@@ -193,7 +193,7 @@ contract Providentia is Ownable, ERC20{
       "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
 
       // If the investor sends more than the MAX_CAP which is 50K
-      if( tokenAmount > 50000 - addressToBalance[_addressToFund] ){
+      if( tokenAmount >= 50000 - addressToBalance[_addressToFund] ){
         tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = 50000 - addressToBalance[_addressToFund].div(500);
         Investors.push(FunderTokens(msg.sender, tokenAmount.div(500), _addressToFund, addressToData[_addressToFund].idNFT));
         addressToBalance[_addressToFund].add(50000 - addressToBalance[_addressToFund]);
@@ -202,10 +202,13 @@ contract Providentia is Ownable, ERC20{
         //TODO: Send back the tokens
 
       }
+
+
       tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount.div(500);
       Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund].div(500), _addressToFund, addressToData[_addressToFund].idNFT));
       addressToBalance[_addressToFund].add(tokenAmount);
-      stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
+      stableCoinContract.transferFrom(msg.sender, address(this), 0);
+      //
     }
 
     /**
