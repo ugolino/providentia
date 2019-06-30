@@ -12,7 +12,7 @@ import "./SafeMath.sol";
     Note: Some values are hardcoded in order to represent a specific usecase
  */
 
-contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
+contract Providentia is Ownable, ERC20{
   // @dev Library used to calculate time differences
   using BokkyPooBahsDateTimeLibrary for uint;
   using SafeMath for uint;
@@ -39,7 +39,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     event studentCreated (
         string _name,
-        uint8 _age,
+        uint _age,
         string _country,
         string _profAccount,
         string _university
@@ -47,7 +47,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     struct StudentData {
         string name;
-        uint8 age;
+        uint age;
         string country;
         string university;
         string profAccount;
@@ -71,10 +71,9 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       uint idNFT;
     }
 
-  //  StudentLoan[] Loans;
     FunderTokens[] Investors;
 
-    address[] sendTokens = [address(this)];
+    address[] sendTokens ;
 
     uint[] valueSend = [100];
 
@@ -101,6 +100,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     constructor(address _stableCoinAddress, ERC1155MixedFungibleMintable _tokenIERC1155) public{
         stableCoinAddress = _stableCoinAddress;
         _token = _tokenIERC1155;
+        sendTokens.push(msg.sender);
     }
 
     /**
@@ -122,7 +122,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     */
     function addStudent(
       string memory _name,
-      uint8 _age,
+      uint _age,
       string memory _country,
       string memory _profAccount,
       string memory _university,
@@ -134,15 +134,19 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         require(bytes(addressToData[msg.sender].name).length == 0,
         "An address can only have one Student associated");
 
-
-
         uint _type = _token.create(_uri, true);
         _token.mintNonFungible(_type, sendTokens);
         uint _id = _token.create(_uri, false);
         _token.mintFungible(_id, sendTokens, valueSend );
 
-        addressToData[msg.sender] = StudentData(_name, _age, _country, _university,
-        _profAccount, _type);
+        addressToData[msg.sender] = StudentData(
+          _name,
+          _age,
+          _country,
+          _university,
+          _profAccount,
+          _type
+          );
 
         emit studentCreated(
           _name,
@@ -167,7 +171,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         addressToBalance[msg.sender] = 0;
         // When requesting a loan the Student hasn't accept it yet
         studentHasLoan[msg.sender] = false;
-        //Loans.push(StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false ));
+
     }
 
     /**
