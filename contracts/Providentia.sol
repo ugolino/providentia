@@ -33,6 +33,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     // note: One NFT MUST have 100 FT attached, no more no less
     mapping( address => mapping(uint => uint) ) tokensToValue;
 
+    mapping( string => address) addressToUniversity;
+
         /***********************************|
         |        Variables and Events       |
         |__________________________________*/
@@ -97,6 +99,12 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       _;
     }
 
+    modifier onlySchool(address _addressFunded){
+      require( addressToUniversity[addressToData[_addressFunded].university] == msg.sender,
+        "The sender is not an approved school");
+        _;
+    }
+
     constructor(address _stableCoinAddress, ERC1155MixedFungibleMintable _tokenIERC1155) public{
         stableCoinAddress = _stableCoinAddress;
         _token = _tokenIERC1155;
@@ -134,6 +142,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         require(bytes(addressToData[msg.sender].name).length == 0,
         "An address can only have one Student associated");
 
+        require(addressToUniversity[_university] != address(0), "University hasn't been added yet");
+
         uint _type = _token.create(_uri, true);
         _token.mintNonFungible(_type, sendTokens);
         uint _id = _token.create(_uri, false);
@@ -155,6 +165,15 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           _profAccount,
           _university
           );
+    }
+
+    function addSchool(
+      address _addressSchool,
+      string memory _universityName
+      )
+      public onlyOwner{
+
+        addressToUniversity[_universityName] = _addressSchool;
     }
 
     /**
@@ -226,7 +245,9 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     /**
       @notice Function to accept the proposed loan
     */
-    function acceptLoan() public{
+
+
+    function acceptLoan(address _addressFunded) public onlySchool(_addressFunded){
       require(addressToLoan[msg.sender].loanFunded == true);
       addressToLoan[msg.sender].loanAccepted = true;
       studentHasLoan[msg.sender] = true;
