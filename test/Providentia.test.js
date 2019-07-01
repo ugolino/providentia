@@ -69,6 +69,7 @@ contract('Token', async function(accounts) {
         assert(loan.amountDAI == "50000");
 
       })
+
     it('should not create a loan request', async function() {
 
       //Try to request a loan with an address not registered
@@ -121,7 +122,7 @@ contract('Token', async function(accounts) {
        console.log(studentLoans);
      })
 
-     
+
 
     })
 
