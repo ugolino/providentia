@@ -95,13 +95,12 @@ contract('Token', async function(accounts) {
         //await daiToken.transfer(accounts[0], 5000, {from:accounts[3]})
         //I will use the owner of the account to make the Approve transaction
         await daiToken.approve(providentia.address, 500, {from: accounts[2]});
-
-
+        
         await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
 
         var arrayInv = await providentia.Investors(0);
 
-        console.log(arrayInv);
+        assert( arrayInv.
       })
     })
 
