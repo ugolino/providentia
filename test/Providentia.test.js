@@ -40,6 +40,14 @@ contract('Token', async function(accounts) {
     })()
   })
 
+  describe('addSchool', function() {
+    it('should add an University', async function() {
+      await providentia.addSchool(accounts[4], "Lambda School");
+
+      
+    })
+  })
+
   describe('addStudent', function() {
     it('should add a Student ', async function() {
       await providentia.addStudent("Mark", 18, "Canada",
