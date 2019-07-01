@@ -11,7 +11,8 @@
     "bignumber": "^1.1.0",
     "bignumber.js": "^4.1.0",
     "openzeppelin-solidity": "^2.3.0",
-    "truffle-assertions": "^0.9.1"
+    "truffle-assertions": "^0.9.1",
+    "truffle-hdwallet-provider": "^1.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
