@@ -94,14 +94,35 @@ contract('Token', async function(accounts) {
 
         //await daiToken.transfer(accounts[0], 5000, {from:accounts[3]})
         //I will use the owner of the account to make the Approve transaction
-        await daiToken.approve(providentia.address, 500, {from: accounts[2]});
-        
+        await daiToken.approve(providentia.address, 2000, {from: accounts[2]});
+
+
         await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
 
-        var arrayInv = await providentia.Investors(0);
+        //var arrayInv = await providentia.Investors(0);
 
-        assert( arrayInv.
+        //assert(arrayInv._addressFunder == accounts[2]);
+        //Add all the other fields
+        //assert(arrayInv.)
       })
+
+     it('should fund the Loan completely', async function() {
+
+       await daiToken.approve(providentia.address, 50000, {from: accounts[2]});
+
+       await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
+
+       var arrayInv = await providentia.Investors(0);
+
+       console.log(arrayInv);
+
+       var studentLoans = await providentia.addressToLoan(arrayInv._addressFunded);
+
+       console.log(studentLoans);
+     })
+
+     
+
     })
 
   /*describe('acceptLoan', function() {
