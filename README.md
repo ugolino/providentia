@@ -18,9 +18,8 @@ Run `npm install -g truffle` to install [Truffle framework](http://truffleframew
 
 ## Start Ganache-cli
 
-Start the ganache-cli with the following parameters:
+Start the ganache-cli:
 
-`ganache-cli --gasLimit=0x1fffffffffffff --allowUnlimitedContractSize -e 1000000000`
+`ganache-cli `
 
-It allows unlimited contract sizes while debugging. By enabling this flag, the check within the EVM for contract size limit of 24KB (see EIP-170) is bypassed. Enabling this flag will cause ganache-cli to behave differently than production environments.
 

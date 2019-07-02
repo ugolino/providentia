@@ -40,10 +40,18 @@ contract('Token', async function(accounts) {
     })()
   })
 
+  describe('addSchool', function() {
+    it('should add an University', async function() {
+      await providentia.addSchool(accounts[4], "Lambda School");
+
+
+    })
+  })
+
   describe('addStudent', function() {
     it('should add a Student ', async function() {
       await providentia.addStudent("Mark", 18, "Canada",
-            "https://github.com/Solexplorer", "RandomUni", "");
+            "https://github.com/Solexplorer", "Lambda School", "");
 
       var personalData = await providentia.addressToData(accounts[0]);
       assert( personalData.name == "Mark");
@@ -52,7 +60,7 @@ contract('Token', async function(accounts) {
 
       await truffleAssert.reverts(
         providentia.addStudent("Rob", 18, "France",
-        "https://github.com/Ugolino", "NewUni", "", {from: accounts[0]}),
+        "https://github.com/Ugolino", "Lambda School", "", {from: accounts[0]}),
         "An address can only have one Student associated"
       )
 
@@ -69,6 +77,7 @@ contract('Token', async function(accounts) {
         assert(loan.amountDAI == "50000");
 
       })
+
     it('should not create a loan request', async function() {
 
       //Try to request a loan with an address not registered
@@ -94,14 +103,75 @@ contract('Token', async function(accounts) {
 
         //await daiToken.transfer(accounts[0], 5000, {from:accounts[3]})
         //I will use the owner of the account to make the Approve transaction
-        await daiToken.approve(providentia.address, 500, {from: accounts[2]});
-        
+        await daiToken.approve(providentia.address, 2000, {from: accounts[2]});
+
+
         await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
 
-        var arrayInv = await providentia.Investors(0);
+        var ad = await providentia.addressToBalance(accounts[0]);
 
-        assert( arrayInv.
+        console.log(ad);
+
+        //var arrayInv = await providentia.Investors(0);
+
+        //assert(arrayInv._addressFunder == accounts[2]);
+        //Add all the other fields
+        //assert(arrayInv.)
       })
+
+     it('should fund the Loan completely', async function() {
+
+       await daiToken.approve(providentia.address, 50000, {from: accounts[2]});
+
+       await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
+
+       var arrayInv = await providentia.Investors(0);
+
+       var studentLoans = await providentia.addressToLoan(arrayInv._addressFunded);
+
+       var ad = await providentia.addressToBalance(accounts[0]);
+
+       console.log(ad.toString());
+
+     })
+
+
+
+    })
+
+    describe('acceptLoan', function() {
+      it('should accept the loan of the student', async function() {
+
+        await providentia.acceptLoan(accounts[0], {from:accounts[4]});
+
+      })
+
+     it('should not accept the loan as the user is not registered', async function() {
+
+
+       await truffleAssert .reverts(
+          providentia.acceptLoan(accounts[5], {from:accounts[4]}),
+          "Loan has not been funded completely"
+       )
+     })
+     it('should not accept the loan as the University is not registered', async function() {
+
+       await truffleAssert .reverts(
+         providentia.acceptLoan(accounts[0], {from: accounts[6]}),
+         "The sender is not an approved school.")
+
+     })
+
+     describe('withdrawLoan', function() {
+       it('should withdraw the loan', async function() {
+
+         var ad = await providentia.addressToBalance(accounts[0]);
+
+         console.log(ad);
+
+         //await providentia.withdrawLoan(100, {from:accounts[0]})
+       })
+     })
     })
 
   /*describe('acceptLoan', function() {

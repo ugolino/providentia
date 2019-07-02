@@ -22,7 +22,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     // @dev Mappiing used to store the details of the Loan
     mapping( address => StudentLoan) public addressToLoan;
     // @dev Mapping used to track the Loan of the student
-    mapping( address => uint) addressToBalance;
+    mapping( address => uint) public addressToBalance;
     // @dev Mapping used to track the interest paid by the student
     mapping( address => uint) studentToInterest;
     // @dev Mapping to know if the user has an outstanding loan
@@ -32,6 +32,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     // idNFT => amountTokens
     // note: One NFT MUST have 100 FT attached, no more no less
     mapping( address => mapping(uint => uint) ) tokensToValue;
+
+    mapping( string => address) addressToUniversity;
 
         /***********************************|
         |        Variables and Events       |
@@ -97,6 +99,12 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       _;
     }
 
+    modifier onlySchool(address _addressFunded){
+      require( addressToUniversity[addressToData[_addressFunded].university] == msg.sender,
+        "The sender is not an approved school");
+        _;
+    }
+
     constructor(address _stableCoinAddress, ERC1155MixedFungibleMintable _tokenIERC1155) public{
         stableCoinAddress = _stableCoinAddress;
         _token = _tokenIERC1155;
@@ -134,6 +142,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         require(bytes(addressToData[msg.sender].name).length == 0,
         "An address can only have one Student associated");
 
+        require(addressToUniversity[_university] != address(0), "University hasn't been added yet");
+
         uint _type = _token.create(_uri, true);
         _token.mintNonFungible(_type, sendTokens);
         uint _id = _token.create(_uri, false);
@@ -155,6 +165,15 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           _profAccount,
           _university
           );
+    }
+
+    function addSchool(
+      address _addressSchool,
+      string memory _universityName
+      )
+      public onlyOwner{
+
+        addressToUniversity[_universityName] = _addressSchool;
     }
 
     /**
@@ -202,12 +221,12 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         //TODO: Send back the tokens
 
       }
-
-
+else{
       tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount.div(500);
       Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund].div(500), _addressToFund, addressToData[_addressToFund].idNFT));
-      addressToBalance[_addressToFund].add(tokenAmount);
+      addressToBalance[_addressToFund] += tokenAmount;
       stableCoinContract.transferFrom(msg.sender, address(this), 0);
+    }
       //
     }
 
@@ -216,9 +235,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       @param _amount Amount the user is willing to withdraw
     */
     function withdrawLoan(uint _amount) public{
-      require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
+      require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0, "ts");
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
-      //User can take only 20% each year
 
       stableCoinContract.transfer(msg.sender, _amount);
     }
@@ -226,10 +244,12 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     /**
       @notice Function to accept the proposed loan
     */
-    function acceptLoan() public{
-      require(addressToLoan[msg.sender].loanFunded == true);
-      addressToLoan[msg.sender].loanAccepted = true;
-      studentHasLoan[msg.sender] = true;
+
+
+    function acceptLoan(address _addressFunded) public onlySchool(_addressFunded){
+      require(addressToLoan[_addressFunded].loanFunded == true, "Loan has not been funded completely");
+      addressToLoan[_addressFunded].loanAccepted = true;
+      studentHasLoan[_addressFunded] = true;
     }
 
     /**
