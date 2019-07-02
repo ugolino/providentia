@@ -7,8 +7,8 @@
       <template v-slot:activator="{ on }">
         <v-toolbar-side-icon v-on="on"></v-toolbar-side-icon>
       </template>
-      <v-list light>
-        <router-link to="/students">
+      <v-list>
+        <router-link to="/students" >
           <v-list-tile>
             <v-list-tile-title>Students</v-list-tile-title>
           </v-list-tile>
