@@ -8,5 +8,6 @@
 .logo {
   color: #fff;
   font-size: 1.3em;
+  letter-spacing: 3px;
 }
 </style>

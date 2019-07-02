@@ -24,13 +24,17 @@ export default {
 <style lang="scss">
 #app {
   background-color: #4844a3;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Tenor Sans', sans-serif;
   color: #fff;
 }
 
 a {
   color: #fff;
   text-decoration: none;
+}
+
+.v-overlay:before {
+  opacity: 0.9;
 }
 
 </style>

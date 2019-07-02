@@ -8,7 +8,7 @@
         <router-link to="students">
           <v-card
               light
-              class="mx-auto"
+              class="mx-auto elevation-0"
               max-width="500"
             >
             <v-img
@@ -26,7 +26,7 @@
         <router-link to="investors">
           <v-card
               light
-              class="mx-auto"
+              class="mx-auto elevation-0"
               max-width="500"
             >
             <v-img
