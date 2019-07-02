@@ -75,7 +75,7 @@
                                 v-model="studentId"
                                 :rules="studentIdRules"
                                 :counter="10"
-                                :label="`Enter your ${selectedSchool} student id`"
+                                :label="`Enter your Student ID`"
                                 required
                               ></v-text-field>
                             </v-card-text>
