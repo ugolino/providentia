@@ -22,7 +22,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     // @dev Mappiing used to store the details of the Loan
     mapping( address => StudentLoan) public addressToLoan;
     // @dev Mapping used to track the Loan of the student
-    mapping( address => uint) addressToBalance;
+    mapping( address => uint) public addressToBalance;
     // @dev Mapping used to track the interest paid by the student
     mapping( address => uint) studentToInterest;
     // @dev Mapping to know if the user has an outstanding loan
@@ -221,12 +221,12 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         //TODO: Send back the tokens
 
       }
-
-
+else{
       tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount.div(500);
       Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund].div(500), _addressToFund, addressToData[_addressToFund].idNFT));
-      addressToBalance[_addressToFund].add(tokenAmount);
+      addressToBalance[_addressToFund] += tokenAmount;
       stableCoinContract.transferFrom(msg.sender, address(this), 0);
+    }
       //
     }
 
@@ -235,9 +235,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       @param _amount Amount the user is willing to withdraw
     */
     function withdrawLoan(uint _amount) public{
-      require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
+      require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0, "ts");
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
-      //User can take only 20% each year
 
       stableCoinContract.transfer(msg.sender, _amount);
     }
@@ -248,9 +247,9 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
 
     function acceptLoan(address _addressFunded) public onlySchool(_addressFunded){
-      require(addressToLoan[msg.sender].loanFunded == true);
-      addressToLoan[msg.sender].loanAccepted = true;
-      studentHasLoan[msg.sender] = true;
+      require(addressToLoan[_addressFunded].loanFunded == true, "Loan has not been funded completely");
+      addressToLoan[_addressFunded].loanAccepted = true;
+      studentHasLoan[_addressFunded] = true;
     }
 
     /**
