@@ -172,6 +172,21 @@ contract('Token', async function(accounts) {
          //await providentia.withdrawLoan(100, {from:accounts[0]})
        })
      })
+
+     describe('releaseTokens', function() {
+       it('should release the Tokens to Investors', async function() {
+
+         await providentia.releaseTokens(accounts[0], {from:accounts[2]});
+
+       })
+       it('should not release the tokens to Investors', async function() {
+
+         await providentia.releaseTokens(accounts[0], {from:accounts[6]});
+       })
+     })
+     describe('repayLoan', function() {
+       
+     })
     })
 
   /*describe('acceptLoan', function() {
