@@ -151,14 +151,14 @@ contract('Token', async function(accounts) {
 
        await truffleAssert .reverts(
           providentia.acceptLoan(accounts[5], {from:accounts[4]}),
-          "Loan has not been funded completely"
+          "The sender is not an approved school"
        )
      })
      it('should not accept the loan as the University is not registered', async function() {
 
        await truffleAssert .reverts(
          providentia.acceptLoan(accounts[0], {from: accounts[6]}),
-         "The sender is not an approved school.")
+         "The sender is not an approved school")
 
      })
 
@@ -167,25 +167,27 @@ contract('Token', async function(accounts) {
 
          var ad = await providentia.addressToBalance(accounts[0]);
 
-         console.log(ad);
+         console.log(ad.toString());
 
-         //await providentia.withdrawLoan(100, {from:accounts[0]})
+         var balk = await daiToken.balanceOf(providentia.address);
+
+         console.log(balk);
+
+         await providentia.withdrawLoan(100, {from:accounts[0]})
        })
      })
 
-     describe('releaseTokens', function() {
-       it('should release the Tokens to Investors', async function() {
-
-         await providentia.releaseTokens(accounts[0], {from:accounts[2]});
-
-       })
-       it('should not release the tokens to Investors', async function() {
-
-         await providentia.releaseTokens(accounts[0], {from:accounts[6]});
-       })
-     })
      describe('repayLoan', function() {
-       
+       it('should repay the loan', async function() {
+
+         await daiToken.approve(providentia.address, 2000 );
+
+         await providentia.repayLoan();
+
+         var check = await providentia.studentToInterest(accounts[0])
+         console.log(check)
+       })
+
      })
     })
 
