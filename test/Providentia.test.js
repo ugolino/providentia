@@ -125,6 +125,10 @@ contract('Token', async function(accounts) {
 
        await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
 
+       var balk = await daiToken.balanceOf(accounts[2]);
+
+       console.log(balk.toString());
+
        var arrayInv = await providentia.Investors(0);
 
        var studentLoans = await providentia.addressToLoan(arrayInv._addressFunded);
@@ -169,9 +173,6 @@ contract('Token', async function(accounts) {
 
          console.log(ad.toString());
 
-         var balk = await daiToken.balanceOf(providentia.address);
-
-         console.log(balk);
 
          await providentia.withdrawLoan(100, {from:accounts[0]})
        })
@@ -189,6 +190,15 @@ contract('Token', async function(accounts) {
        })
 
      })
+
+    describe('withdrawRepaidLoan', function() {
+      it('should let investors withdraw their loan', async function() {
+
+        var sha = await providentia.withdrawRepaidLoan(accounts[0], {from: accounts[2]});
+
+
+      })
+    })
     })
 
   /*describe('acceptLoan', function() {
