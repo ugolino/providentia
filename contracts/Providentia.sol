@@ -213,19 +213,18 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
       // If the investor sends more than the MAX_CAP which is 50K
       if( tokenAmount >= 50000 - addressToBalance[_addressToFund] ){
-        tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = 50000 - addressToBalance[_addressToFund].div(500);
+        tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] += (50000 - addressToBalance[_addressToFund]).div(500);
         Investors.push(FunderTokens(msg.sender, tokenAmount.div(500), _addressToFund, addressToData[_addressToFund].idNFT));
-        addressToBalance[_addressToFund] +=50000 - addressToBalance[_addressToFund];
         addressToLoan[_addressToFund].loanFunded = true;
         stableCoinContract.transferFrom(msg.sender, address(this), 50000 - addressToBalance[_addressToFund]);
-        //TODO: Send back the tokens
+        addressToBalance[_addressToFund] +=50000 - addressToBalance[_addressToFund];
 
       }
 else{
       tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] = tokenAmount.div(500);
       Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund].div(500), _addressToFund, addressToData[_addressToFund].idNFT));
       addressToBalance[_addressToFund] += tokenAmount;
-      stableCoinContract.transferFrom(msg.sender, address(this), 0);
+      stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
     }
       //
     }
@@ -238,7 +237,7 @@ else{
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
 
-      //stableCoinContract.transfer(msg.sender, 0);
+      stableCoinContract.transfer(msg.sender, _amount);
     }
 
     /**
@@ -299,7 +298,7 @@ else{
       @notice Function for the Investors to withdraw their share
       @param _addressFunded Address of the funded student
     */
-    function withdrawRepaidLoan(address _addressFunded) public{
+    function withdrawRepaidLoan(address _addressFunded) public {
 
             uint share = _calculateRepayment(_addressFunded);
             ERC20 stableCoinContract = ERC20(stableCoinAddress);
@@ -311,11 +310,33 @@ else{
       for(uint i = 0; i<Investors.length; i++){
         if(Investors[i]._addressFunded == _addressFunded){
           uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
-          share = (addressToBalance[_addressFunded].add(studentToInterest[_addressFunded]) ).mul(_tokenAmount.div(100));
+          share = (addressToBalance[_addressFunded].mul(_tokenAmount.div(100)));
+          //Reduce token value
       }
     }
 
     }
+
+    function getShare(address _addressFunded) public view returns(uint _share){
+      for(uint i = 0; i<Investors.length; i++){
+        if(Investors[i]._addressFunded == _addressFunded){
+          uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
+          _share = (addressToBalance[_addressFunded].mul(_tokenAmount.div(100)));
+          //Reduce token value
+      }
+
+    }
+  }
+
+  function tokensAmount(address _addressFunded) public view returns(uint _amount){
+    for(uint i = 0; i<Investors.length; i++){
+      if(Investors[i]._addressFunded == _addressFunded){
+        _amount = tokensToValue[msg.sender][Investors[i].idNFT];
+
+    }
+
+  }
+  }
 
 
 
