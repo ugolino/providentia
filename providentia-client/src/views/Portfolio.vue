@@ -6,20 +6,36 @@
         <p class="headline text-xs-center">Check how your investment are performing</p>
       </v-flex>
       <v-flex xs12>
-        <v-data-table
-          :headers="investmentHeaders"
-          :items="investments"
-          class="elevation-0"
+        <v-card
           light
-          hide-actions
-        >
-          <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td>{{ props.item.size }}</td>
-            <td>{{ props.item.createdAt }}</td>
-            <td class="text-sm-right"><b>{{ props.item.return }}</b></td>
-          </template>
-        </v-data-table>
+          class="elevation-0"
+          >
+          <v-card-title secondary-title class="secondary white--text">
+            <v-layout row justify-space-between wrap>
+            <v-flex v-for="(header, index) in investmentsHeaders" :key="index" :class="header.class">
+              {{ header.text }}
+            </v-flex>
+            </v-layout>
+          </v-card-title>
+          <v-container>
+             <v-layout v-for="(investment, index) in investments" :key="index" row justify-space-between wrap xs12 class="py-3">
+              <v-flex xs12 md4>
+                <b>{{investment.name}}</b>
+              </v-flex>
+              <v-flex xs4 md2>
+                {{investment.size}}
+              </v-flex>
+              <v-flex xs4 md2>
+                {{investment.createdAt}}
+              </v-flex>
+              <v-flex xs4 md2 class="text-sm-right">
+                <b>{{investment.return}}</b>
+              </v-flex>
+            </v-layout>
+           
+          </v-container>
+           
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -32,11 +48,11 @@ import { mapState } from 'vuex'
     
     data() {
       return {
-        investmentHeaders: [
-          {text: 'School', value: 'name' },
-          {text: 'Amount', value: 'size' },
-          {text: 'Date', value: 'createdAt' },
-          {text: 'Current Return', value: 'return', align: "right" }
+        investmentsHeaders: [
+          {text: 'School', value: 'name', class: "xs6 md4" },
+          {text: 'Amount', value: 'size', class: "xs3 md2" },
+          {text: 'Date', value: 'createdAt', class: "xs3 md2" },
+          {text: 'Current Return', value: 'return', class: "xs3 md2 text-sm-right" }
         ],
         investments: [
           {
