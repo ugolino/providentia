@@ -17,7 +17,7 @@
             <td>{{ props.item.name }}</td>
             <td>{{ props.item.size }}</td>
             <td>{{ props.item.createdAt }}</td>
-            <td>{{ props.item.return }}</td>
+            <td class="text-sm-right"><b>{{ props.item.return }}</b></td>
           </template>
         </v-data-table>
       </v-flex>
@@ -35,8 +35,8 @@ import { mapState } from 'vuex'
         investmentHeaders: [
           {text: 'School', value: 'name' },
           {text: 'Amount', value: 'size' },
-          {text: 'CreatedAt', value: 'createdAt' },
-          {text: 'Current Return', value: 'return' }
+          {text: 'Date', value: 'createdAt' },
+          {text: 'Current Return', value: 'return', align: "right" }
         ],
         investments: [
           {
