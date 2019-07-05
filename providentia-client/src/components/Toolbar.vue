@@ -15,7 +15,13 @@
         </router-link>
         <router-link to="/investors">
           <v-list-tile>
-            <v-list-tile-title>Invenstors</v-list-tile-title>
+            <v-list-tile-title>Investors</v-list-tile-title>
+          </v-list-tile>
+        </router-link>
+        <v-divider></v-divider>
+        <router-link to="/portfolio">
+          <v-list-tile>
+            <v-list-tile-title>Portfolio</v-list-tile-title>
           </v-list-tile>
         </router-link>
       </v-list>

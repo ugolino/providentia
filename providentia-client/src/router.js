@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Students from "./views/Students.vue";
 import Investors from "./views/Investors.vue";
+import Portfolio from "./views/Portfolio.vue";
 
 Vue.use(Router);
 
@@ -25,5 +26,10 @@ export default new Router({
       name: "investors",
       component: Investors
     },
+    {
+      path: "/portfolio",
+      name: "portfolio",
+      component: Portfolio
+    }
   ]
 });
