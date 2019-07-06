@@ -186,7 +186,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       string memory _universityName
       )
       public onlyOwner{
-        require(addressToUniversity[_universityName] != address(0));
+        require(addressToUniversity[_universityName] == address(0));
         addressToUniversity[_universityName] = _addressSchool;
     }
 
@@ -221,6 +221,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
 
+      require(_addressToFund != address(0));
+
       require(tokenAmount >= (addressToLoan[_addressToFund].amountDAI.div(100))
       && ( tokenAmount % 500 ) == 0 ,
       "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
@@ -250,6 +252,7 @@ else{
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       stableCoinContract.transfer(msg.sender, _amount);
+      addressToBalance[msg.sender] -= _amount;
     }
 
     /**
