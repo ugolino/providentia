@@ -129,6 +129,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       @param _uri Used to store the JSON with the data of the Student
     */
     function addStudent(
+      address _addressStudent,
+      string _studentId,
       string memory _name,
       uint _age,
       string memory _country,
@@ -137,9 +139,10 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       string memory _uri
     )
       public
+      onlySchool(_addressStudent)
     {
 
-        require(bytes(addressToData[msg.sender].name).length == 0,
+        require(bytes(addressToData[_addressStudent].name).length == 0,
         "An address can only have one Student associated");
 
         require(addressToUniversity[_university] != address(0), "University hasn't been added yet");
@@ -149,7 +152,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         uint _id = _token.create(_uri, false);
         _token.mintFungible(_id, sendTokens, valueSend );
 
-        addressToData[msg.sender] = StudentData(
+        addressToData[_addressStudent] = StudentData(
           _name,
           _age,
           _country,
