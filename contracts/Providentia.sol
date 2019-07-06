@@ -40,6 +40,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         |__________________________________*/
 
     event studentCreated (
+        address addressStudent,
+        uint studentId,
         string _name,
         uint _age,
         string _country,
@@ -48,6 +50,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         );
 
     struct StudentData {
+        address addressStudent;
+        uint studentId;
         string name;
         uint age;
         string country;
@@ -130,7 +134,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     */
     function addStudent(
       address _addressStudent,
-      string _studentId,
+      uint _studentId,
       string memory _name,
       uint _age,
       string memory _country,
@@ -139,7 +143,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       string memory _uri
     )
       public
-      onlySchool(_addressStudent)
+
     {
 
         require(bytes(addressToData[_addressStudent].name).length == 0,
@@ -153,6 +157,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         _token.mintFungible(_id, sendTokens, valueSend );
 
         addressToData[_addressStudent] = StudentData(
+          _addressStudent,
+          _studentId,
           _name,
           _age,
           _country,
@@ -162,6 +168,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           );
 
         emit studentCreated(
+          _addressStudent,
+          _studentId,
           _name,
           _age,
           _country,
@@ -175,7 +183,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       string memory _universityName
       )
       public onlyOwner{
-
+        require(addressToUniversity[_universityName] != address(0));
         addressToUniversity[_universityName] = _addressSchool;
     }
 
@@ -340,7 +348,6 @@ else{
 
   }
   }
-
 
 
 
