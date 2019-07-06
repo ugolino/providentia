@@ -190,9 +190,7 @@ contract('Token', async function(accounts) {
     describe('withdrawRepaidLoan', function() {
       it('should let investors withdraw their loan', async function() {
 
-        var share = await providentia.getShare(accounts[8], {from:accounts[2]});
-
-        console.log(share.toString());
+        
         await providentia.withdrawRepaidLoan(accounts[8], {from: accounts[2]});
 
 

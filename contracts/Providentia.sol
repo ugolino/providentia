@@ -304,17 +304,16 @@ else{
           uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
           share = (addressToBalance[_addressFunded].mul(_tokenAmount.div(100)));
           //Reduce token value
+          addressToBalance[_addressFunded] -= share;
+          tokensToValue[msg.sender][Investors[i].idNFT] -= _tokenAmount;
+          // get share of interest
       }
     }
 
     }
 
-    /**
-      @notice Function to calculate the share of the sender
-      @param _addressFunded Address of the funded student
-    **/
 
-    function getShare(address _addressFunded) public view returns(uint _share){
+  /*  function getShare(address _addressFunded) public view returns(uint _share){
       for(uint i = 0; i<Investors.length; i++){
         if(Investors[i]._addressFunded == _addressFunded){
           uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
@@ -323,6 +322,6 @@ else{
       }
 
     }
-  }
+  }*/
 
 }
