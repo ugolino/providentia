@@ -17,9 +17,5 @@ function deployStudentToken(deployer){
 module.exports = async(deployer) => {
     let deployProvidentia = await deployer.deploy(Providentia,DaiToken.address,StudentToken.address );
     contractProvidentia = await Providentia.deployed()
-    let addStudent = await contractProvidentia.addStudent(
-        "addr",
-        12
-        { gas: 200000 }
-    );
+  
   };
