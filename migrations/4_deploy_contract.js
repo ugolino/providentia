@@ -2,7 +2,7 @@ var Providentia = artifacts.require("./Providentia");
 var StudentToken = artifacts.require("./StudentToken.sol");
 var DaiToken = artifacts.require("./DaiToken");
 
-module.exports = (deployer, network, [owner]) => deployer
+/*module.exports = (deployer, network, [owner]) => deployer
   .then(() => deployStudentToken(deployer))
 
 function deployStudentToken(deployer){
@@ -11,4 +11,15 @@ function deployStudentToken(deployer){
       DaiToken.address,
       StudentToken.address,
     );
-}
+
+}*/
+
+module.exports = async(deployer) => {
+    let deployProvidentia = await deployer.deploy(Providentia,DaiToken.address,StudentToken.address );
+    contractProvidentia = await Providentia.deployed()
+    let addStudent = await contractProvidentia.addStudent(
+        "addr",
+        12
+        { gas: 200000 }
+    );
+  };
