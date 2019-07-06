@@ -8,13 +8,14 @@ import "./SafeMath.sol";
 
 /**
     @title Providentia, providing students with loan
-    @dev See { insert website }
+    @dev See https://providentia.netlify.com/
     Note: Some values are hardcoded in order to represent a specific usecase
  */
 
 contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
   // @dev Library used to calculate time differences
   using BokkyPooBahsDateTimeLibrary for uint;
+  // @dev Library to prevent integer overflow/underflow
   using SafeMath for uint;
 
     // @dev Mapping used to store user data
@@ -32,7 +33,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     // idNFT => amountTokens
     // note: One NFT MUST have 100 FT attached, no more no less
     mapping( address => mapping(uint => uint) ) tokensToValue;
-
+    // @dev Name of University To Address
     mapping( string => address) addressToUniversity;
 
         /***********************************|
@@ -125,6 +126,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     /**
       @notice Function used to add the Student
+      @param _addressStudent Address of the Student to add
+      @param _studentId Id of the student
       @param _name Name of the Student
       @param _age Age of the Student
       @param _country Country of the Student
@@ -237,7 +240,6 @@ else{
       addressToBalance[_addressToFund] += tokenAmount;
       stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
     }
-      //
     }
 
     /**
@@ -247,14 +249,13 @@ else{
     function withdrawLoan(uint _amount) public{
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
-
       stableCoinContract.transfer(msg.sender, _amount);
     }
 
     /**
       @notice Function to accept the proposed loan
+      @param _addressFunded Address of the user funded
     */
-
 
     function acceptLoan(address _addressFunded) public onlySchool(_addressFunded){
       require(addressToLoan[_addressFunded].loanFunded == true, "Loan has not been funded completely");
@@ -262,38 +263,15 @@ else{
       studentHasLoan[_addressFunded] = true;
     }
 
-
-/*
-      @notice Function to release the tokens to the Investor
-      @param _addressFunded Address of the funded User
-
-
-    function releaseTokens(address _addressFunded) public {
-
-      // check user has 50K
-        require( addressToBalance[_addressFunded] == 50000, "Student has not been funded completely");
-        //Check user has at least one token
-        for( uint i=0; i<Investors.length; i++){
-          if(Investors[i]._addressFunded == _addressFunded){
-            uint amountStake = tokensToValue[msg.sender][Investors[i].idNFT];
-            require( amountStake != 0, "wed");
-            _token.safeTransferFrom(sendTokens[0], msg.sender, ownerToTypes[msg.sender][Investors[i].idNFT], amountStake, "onERC1155Received" );
-            //Set 0 for the token value
-          }
-        }
-    }*/
-
-
     /**
       @notice Function used by the Student to repay the Loan
       @dev First you need to call an approve transaction
     */
-    //Check the logic here as it's a bit flawed
+
     function repayLoan() public hasActiveLoan{
 
         ERC20 stableCoinContract = ERC20(stableCoinAddress);
         uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
-
         stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
         //Calculate Interest matured
         _calculateInterest(tokenAmount);
@@ -328,6 +306,11 @@ else{
 
     }
 
+    /**
+      @notice Function to calculate the share of the sender
+      @param _addressFunded Address of the funded student
+    **/
+
     function getShare(address _addressFunded) public view returns(uint _share){
       for(uint i = 0; i<Investors.length; i++){
         if(Investors[i]._addressFunded == _addressFunded){
@@ -338,17 +321,5 @@ else{
 
     }
   }
-
-  function tokensAmount(address _addressFunded) public view returns(uint _amount){
-    for(uint i = 0; i<Investors.length; i++){
-      if(Investors[i]._addressFunded == _addressFunded){
-        _amount = tokensToValue[msg.sender][Investors[i].idNFT];
-
-    }
-
-  }
-  }
-
-
 
 }
