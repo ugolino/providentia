@@ -220,7 +220,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     */
     function addMoneyPool(address _addressToFund) public hasFundedLoan(_addressToFund){
-      require(bytes(addressToLoan[_addressToFund].endDate != 0), "Address has not requested a loan")
+      require(addressToLoan[_addressToFund].endDate != 0, "Address has not requested a loan");
 
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
@@ -297,7 +297,8 @@ else{
       @param _addressFunded Address of the funded student
     */
     function withdrawRepaidLoan(address _addressFunded) public {
-        // add some checks here time passed more than 1 year
+
+            require( addressToLoan[_addressFunded].startDate.diffYears(now) > 1);
             uint share = _calculateRepayment(_addressFunded);
             ERC20 stableCoinContract = ERC20(stableCoinAddress);
             stableCoinContract.transfer(msg.sender, share);
