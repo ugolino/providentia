@@ -40,11 +40,48 @@
             <v-flex xs4 md3 class="text-sm-center">
               <v-btn
                 color="primary elevation-0"
+                @click="selectedSchool === index ? selectAllStudents(school) : selectedSchool = index"
                 >
-                Select Investment
+                {{ selectedSchool === index ? 'Invest in all students' : 'Select Investment' }}
               </v-btn>
+              
             </v-flex>
           </v-layout>
+          <div
+            row 
+            wrap
+            v-if="selectedSchool === index"
+          >
+            <v-divider light></v-divider>
+            <v-layout v-for="student in school.students" :key="student.id">
+              <v-flex xs6 md3 pl-3>
+                <h4 >{{student.name}}</h4>
+              </v-flex>
+              <v-flex xs4 md2 class="text-sm-center">
+                <h4 class="subtitle">{{student.enrolled}}</h4>
+                <p>enroll days</p>
+              </v-flex>
+              <v-flex xs4 md2 class="text-sm-center">
+                <h4 class="subtitle">{{student.internship}}</h4>
+                <p>internship</p>
+              </v-flex>
+              <v-flex xs4 md2 class="text-sm-center">
+                <h4 class="subtitle">
+                  <a :href="student.github" v-if="student.github != ''">
+                    <img src="https://img.icons8.com/material-sharp/128/454545/github.png" height="30px" />
+                  </a>
+                </h4>
+              </v-flex>
+                <v-flex xs4 md3 class="text-sm-center">
+                <v-btn
+                  color="primary elevation-0"
+                  @click="addStudent(student)"
+                  >
+                  {{ selectedStudents.includes(student) ? 'remove' : "select" }}
+                </v-btn>
+              </v-flex>
+            </v-layout>
+          </div>
         </v-card>
       </v-flex>
     </v-layout>
@@ -58,7 +95,8 @@ import { mapState } from 'vuex'
     
     data() {
       return {
-
+        selectedSchool: null,
+        selectedStudents: []
       }
     },
 
@@ -70,7 +108,26 @@ import { mapState } from 'vuex'
       
     },
     methods: {
-      
+      addStudent(student){
+        console.log(student)
+        console.log(this.selectedStudents.includes(student))
+        if (!this.selectedStudents.includes(student)) {
+          console.log('not included')
+          this.selectedStudents.push(student)
+        } else {
+          this.selectedStudents.shift(student)
+        }
+      },
+      selectAllStudents(school){
+        school.students.map((student, index) => {
+          if (!this.selectedStudents.includes(student)) {
+            console.log('not included')
+            this.selectedStudents.push(student)
+          } else {
+            this.selectedStudents.shift(student)
+          }
+        });
+      }
     }
   }
 </script>

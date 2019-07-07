@@ -2,7 +2,8 @@
   <v-container id="home" grid-list-md text-xs-center >
     <v-layout row wrap>
       <v-flex xs12>
-        <h1 class="display-2 py-4">Welcome to Providentia</h1>
+        <h1 class="display-2 my-4">Welcome to Providentia</h1>
+        <h4 class="headline my-4">Decentralized marketplace for students financing</h4>
       </v-flex>
       <v-flex xs12 sm6>
         <router-link to="students">
@@ -13,7 +14,7 @@
             >
             <v-img
               src="/education.png"
-              height="150px"
+              height="120px"
             ></v-img>
             <v-card-text >
               <h2 class="headline font-weight-bold py-2">Are you a student?</h2>
@@ -31,7 +32,7 @@
             >
             <v-img
               src="/investor.png"
-              height="150px"
+              height="120px"
             ></v-img>
             <v-card-text >
               <h2 class="headline font-weight-bold py-2">Are you an investor?</h2>

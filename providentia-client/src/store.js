@@ -16,7 +16,25 @@ export default new Vuex.Store({
           rate: '19%',
           employment_rate: '87%',
           months_to_repay: '78'
-        }
+        },
+        students: [
+          { 
+            id: 1,
+            name: "Satya Narayana Nadella",
+            gdp: "4.0",
+            github: "https://github.com/satyanadella",
+            internship: "Microsoft",
+            enrolled: "07/01/2019"
+          },
+          {
+            id: 2,
+            name: "Nat Friedman",
+            gdp: "4.0",
+            github: "https://github.com/nat",
+            internship: "Github",
+            enrolled: "07/01/2019"
+          }
+        ]
       },
       {
         name: 'Purdue University Computer Science',
@@ -28,7 +46,25 @@ export default new Vuex.Store({
           rate: '24%',
           employment_rate: '97%',
           months_to_repay: '88'
-        }
+        },
+        students: [
+          { 
+            id: 3,
+            name: "Brad Surak",
+            gdp: "4.0",
+            github: "",
+            internship: "GE Digital",
+            enrolled: "09/01/2018"
+          },
+          { 
+            id: 4,
+            name: "Beatrice Yormark" ,
+            gdp: "4.0",
+            github: "https://github.com/nat",
+            internship: "Connect, Inc.",
+            enrolled: "09/01/2018"
+          }
+        ]
       }
     ],
   },

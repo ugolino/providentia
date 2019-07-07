@@ -88,7 +88,7 @@
                       Request the financing
                     </v-btn>
                   </v-card-actions>
-                  </v-form>
+                </v-form>
               </v-card>
             </v-dialog>
           </v-card-actions>
