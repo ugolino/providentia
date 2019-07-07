@@ -150,8 +150,9 @@
           <v-btn
             class="primary"
             large
+            @click="confirmInvestment"
           >
-            Conferm Investment
+            Confirm Investment
           </v-btn>
         </v-flex>
      
@@ -210,6 +211,9 @@ import { mapState } from 'vuex'
             }
           }
         });
+      },
+      confirmInvestment(){
+        console.log(this.selectedStudents)
       }
     }
   }
