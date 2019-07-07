@@ -46,7 +46,7 @@
             class="mx-auto elevation-0"
             >
             <v-layout row wrap>
-              <v-flex sm6 md6 pa-0>
+              <v-flex sm6 md6 py-0>
                 <v-img
                   src="/school.png"
                 ></v-img>
