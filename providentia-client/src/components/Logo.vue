@@ -1,13 +1,14 @@
 <template>
   <router-link to="/">
-    <h4 class="logo">Providentia</h4>
+    <img src="/providentia-logo-white.png" class="logo"/>
   </router-link>
 </template>
 
-<style>
+<style lang="scss">
 .logo {
   color: #fff;
   font-size: 1.3em;
   letter-spacing: 3px;
+  height: 60px;
 }
 </style>
