@@ -24,6 +24,11 @@
             <v-list-tile-title>Portfolio</v-list-tile-title>
           </v-list-tile>
         </router-link>
+        <router-link to="/repay">
+          <v-list-tile>
+            <v-list-tile-title>Repay your financing</v-list-tile-title>
+          </v-list-tile>
+        </router-link>
       </v-list>
     </v-menu>
   </v-toolbar>
