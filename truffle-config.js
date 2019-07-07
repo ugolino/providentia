@@ -18,6 +18,9 @@
  *
  */
 
+var HDWalletProvider = require("truffle-hdwallet-provider");
+var mnemonic = "";
+
 // const HDWalletProvider = require('truffle-hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
 //
@@ -61,7 +64,12 @@ module.exports = {
 
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
-    // ropsten: {
+     ropsten: {
+       provider: function() {
+        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/PROJECT_ID")
+      },
+      network_id: "*"
+    }
       // provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/${infuraKey}`),
       // network_id: 3,       // Ropsten's id
       // gas: 5500000,        // Ropsten has a lower block limit than mainnet
@@ -91,7 +99,7 @@ module.exports = {
        settings: {          // See the solidity docs for advice about optimization and evmVersion
         optimizer: {
           enabled: true,
-          runs: 1000
+          runs: 200
         },
       //  evmVersion: "byzantium"
        }

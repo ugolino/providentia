@@ -50,17 +50,17 @@ contract('Token', async function(accounts) {
 
   describe('addStudent', function() {
     it('should add a Student ', async function() {
-      await providentia.addStudent("Mark", 18, "Canada",
+      await providentia.addStudent(accounts[8],1010, "Mark", 18, "Canada",
             "https://github.com/Solexplorer", "Lambda School", "");
 
-      var personalData = await providentia.addressToData(accounts[0]);
+      var personalData = await providentia.addressToData(accounts[8]);
       assert( personalData.name == "Mark");
     })
     it("shouldn't create a Student", async function(){
 
       await truffleAssert.reverts(
-        providentia.addStudent("Rob", 18, "France",
-        "https://github.com/Ugolino", "Lambda School", "", {from: accounts[0]}),
+        providentia.addStudent(accounts[8], 1020,"Rob", 18, "France",
+        "https://github.com/Ugolino", "Lambda School", ""),
         "An address can only have one Student associated"
       )
 
@@ -71,9 +71,9 @@ contract('Token', async function(accounts) {
 
     describe('requestLoan', function() {
       it('should request a Loan', async function() {
-        await providentia.requestLoan(4);
+        await providentia.requestLoan(4, {from:accounts[8]});
 
-        var loan = await providentia.addressToLoan(accounts[0]);
+        var loan = await providentia.addressToLoan(accounts[8]);
         assert(loan.amountDAI == "50000");
 
       })
@@ -88,7 +88,7 @@ contract('Token', async function(accounts) {
 
       //Try to request a Loan with an address that has already requesteed the loan
       await truffleAssert .reverts(
-         providentia.requestLoan(4, {from: accounts[0]}),
+         providentia.requestLoan(4, {from: accounts[8]}),
          "User has already initiated a Loan process"
       )
 
@@ -106,7 +106,7 @@ contract('Token', async function(accounts) {
         await daiToken.approve(providentia.address, 2000, {from: accounts[2]});
 
 
-        await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
+        await providentia.addMoneyPool(accounts[8], {from: accounts[2]});
 
         var ad = await providentia.addressToBalance(accounts[0]);
 
@@ -123,7 +123,7 @@ contract('Token', async function(accounts) {
 
        await daiToken.approve(providentia.address, 50000, {from: accounts[2]});
 
-       await providentia.addMoneyPool(accounts[0], {from: accounts[2]});
+       await providentia.addMoneyPool(accounts[8], {from: accounts[2]});
 
        var balk = await daiToken.balanceOf(accounts[2]);
 
@@ -146,7 +146,7 @@ contract('Token', async function(accounts) {
     describe('acceptLoan', function() {
       it('should accept the loan of the student', async function() {
 
-        await providentia.acceptLoan(accounts[0], {from:accounts[4]});
+        await providentia.acceptLoan(accounts[8], {from:accounts[4]});
 
       })
 
@@ -169,12 +169,9 @@ contract('Token', async function(accounts) {
      describe('withdrawLoan', function() {
        it('should withdraw the loan', async function() {
 
-         var ad = await providentia.addressToBalance(accounts[0]);
+         await providentia.addressToBalance(accounts[8]);
 
-         console.log(ad.toString());
-
-
-         await providentia.withdrawLoan(100, {from:accounts[0]})
+         await providentia.withdrawLoan(100, {from:accounts[8]})
        })
      })
 
@@ -183,10 +180,9 @@ contract('Token', async function(accounts) {
 
          await daiToken.approve(providentia.address, 2000 );
 
-         await providentia.repayLoan();
+         await providentia.repayLoan({from:accounts[8]});
 
-         var check = await providentia.studentToInterest(accounts[0])
-         console.log(check)
+         var check = await providentia.studentToInterest(accounts[8])
        })
 
      })
@@ -194,16 +190,12 @@ contract('Token', async function(accounts) {
     describe('withdrawRepaidLoan', function() {
       it('should let investors withdraw their loan', async function() {
 
-        var sha = await providentia.withdrawRepaidLoan(accounts[0], {from: accounts[2]});
+        
+        await providentia.withdrawRepaidLoan(accounts[8], {from: accounts[2]});
 
 
       })
     })
     })
 
-  /*describe('acceptLoan', function() {
-    it('should'n let the student accept the loan', async function() {
-
-      await providentia.acceptLoan({from: accounts[0]});
-    })*/
 })

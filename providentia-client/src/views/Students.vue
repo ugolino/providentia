@@ -10,7 +10,7 @@
           v-model="selectedSchool"
           :change="getSchoolInfo()"
         ></v-select>
-        
+
         <v-card
           light
           class="elevation-0"
@@ -93,7 +93,7 @@
             </v-dialog>
           </v-card-actions>
         </v-card>
-     
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -101,6 +101,9 @@
 
 <script>
 import { mapState } from 'vuex'
+import Portis from '@portis/web3';
+import Web3 from 'web3';
+import { ABI } from './abi.js';
 
   export default {
     data() {
@@ -122,7 +125,7 @@ import { mapState } from 'vuex'
       },
     },
     mounted() {
-      
+
     },
     methods: {
       getSchoolInfo(){
@@ -131,7 +134,32 @@ import { mapState } from 'vuex'
       submitFinancing(){
         if (this.$refs.form.validate()) {
           this.snackbar = true
-          console.log('ok')
+        const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
+        const web3 = new Web3(portis.provider);
+
+        const providentia = new web3.eth.Contract(ABI,'0x8a85711171c977dF06A66Ba793FC27fC6fBCEB94');
+        //const providentia = contract.at('0x9f2f52F3B254Ca497bc88056518a70A5FbcfA650');
+        console.log(web3);
+        portis.onLogin((walletAddress, email, reputation) => {
+          console.log(walletAddress);
+          console.log(reputation);
+          //In this case he is verified by Portis
+          //Reputation Should be 80 to have verified students, for now I will just override it
+          if(reputation == undefined){
+
+            var studentData = providentia.methods.addressToData(walletAddress).call({from: walletAddress}, (error, result) => {
+              if(this.studentId.toString() == result[1].toString() ){
+                providentia.methods.requestLoan(4).send({from: walletAddress});
+              }
+    });
+
+          } else{
+            alert("Not Enough reputation")
+          }
+        });
+
+        portis.showPortis();
+
         }
       }
     }
