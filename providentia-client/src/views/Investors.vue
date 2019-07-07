@@ -82,7 +82,7 @@
       </v-flex>
     </v-layout>
     <v-footer fixed class="pa-5" color="secondary">
-      <h4 class="headline">You selected <b>{{selectedStudents.length}}</b> students</h4>
+      <h4>You selected <b>{{selectedStudents.length}}</b> students</h4>
       <v-spacer></v-spacer>
       <v-btn
         class="primary"
