@@ -5,7 +5,7 @@
         <h1 class="text-xs-center py-2">Are you an investor?</h1>
         <p class="headline text-xs-center">Make your investment</p>
       </v-flex>
-      <v-flex xs12           
+      <v-flex xs12
         v-for="(school, index) in schools"
         :key="index"
         >
@@ -53,11 +53,11 @@
                 >
                 {{ school.students.every(elem => selectedStudents.indexOf(elem) > -1) ? 'Deselect All' : 'Select All' }}
               </v-btn>
-              
+
             </v-flex>
           </v-layout>
           <div
-            row 
+            row
             wrap
             v-if="selectedSchool === index"
           >
@@ -93,7 +93,7 @@
     <v-footer fixed class="pa-5" color="secondary">
       <v-layout align-center justify-space-between row wrap>
         <v-flex xs-12>
-            
+
           <v-btn
             flat
             color="red darken-3"
@@ -143,7 +143,7 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-    
+
         </v-flex>
         <v-spacer></v-spacer>
         <v-flex xs-12>
@@ -155,9 +155,9 @@
             Confirm Investment
           </v-btn>
         </v-flex>
-     
-      
-      
+
+
+
       </v-layout>
 
     </v-footer>
@@ -166,9 +166,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import Portis from '@portis/web3';
+import Web3 from 'web3';
+import { ABI } from './abi.js';
+
 
   export default {
-    
+
     data() {
       return {
         selectedSchool: null,
@@ -182,7 +186,7 @@ import { mapState } from 'vuex'
     },
 
     mounted() {
-      
+
     },
     methods: {
       addStudent(student){
@@ -213,7 +217,37 @@ import { mapState } from 'vuex'
         });
       },
       confirmInvestment(){
-        console.log(this.selectedStudents)
+        const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
+        const web3 = new Web3(portis.provider);
+        var abi = require('human-standard-token-abi')
+
+        const providentia = new web3.eth.Contract(ABI,'0xdee5E2bA6065E07B534053B832D24094B6a6bBAA');
+        const daiToken = new web3.eth.Contract(abi, '0x85e94abdb3f729af159733548283b9fc78b688f5');
+
+        portis.onLogin((walletAddress, email, reputation) => {
+          console.log(walletAddress);
+          var i =0;
+          for(i=0; i<this.selectedStudents.length; i++){
+            providentia.methods.Students(i).call({from: walletAddress}, (error, result) => {
+              if(result){
+              try{
+                var firstName = this.selectedStudents[i -1].name.substr(0,this.selectedStudents[i -1].name.indexOf(' '))
+              } catch(err){}
+              console.log(result)
+                if(firstName == result[2] ){
+                  const tokenAmountHex = '0x' + amountSend.mul(web3.utils.toBN(1000).pow(16)).toString('hex')
+                  const batch = new web3.BatchRequest();
+                  batch.add(daiToken.methods.approve(providentia.address, tokenAmountHex).send({
+                    from: walletAddress
+                  }))
+                  batch.add(providentia.methods.addMoneyPool(result[0]).send({from:walletAddress}))
+                }
+}
+          })
+        }
+})
+
+    portis.showPortis();
       }
     }
   }
