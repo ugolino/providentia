@@ -187,6 +187,11 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           );
     }
 
+    /**
+      @notice Function used to add the school, only the owner can add school, to prevent misbehavior
+      @param _addressSchool Ethereum address of the school
+      @param _universityName Name of the university to add
+    */
     function addSchool(
       address _addressSchool,
       string memory _universityName
