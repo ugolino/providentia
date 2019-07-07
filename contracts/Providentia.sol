@@ -208,7 +208,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         require(bytes(addressToData[msg.sender].name).length != 0,
         "Student hasn't been added yet");
 
-        addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false);
+        addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false, false);
 
         addressToBalance[msg.sender] = 0;
         // When requesting a loan the Student hasn't accept it yet

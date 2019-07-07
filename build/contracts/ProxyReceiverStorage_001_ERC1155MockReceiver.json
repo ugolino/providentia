@@ -46,17 +46,17 @@
     "absolutePath": "/C/Users/tredg/Providentia/contracts/ProxyReceiver/Delegates/DelegatesStorage.sol",
     "exportedSymbols": {
       "ProxyReceiverStorage_001_ERC1155MockReceiver": [
-        4076
+        4129
       ],
       "ProxyReceiverStorage_002_ERCXXXXFuture": [
-        4081
+        4134
       ]
     },
-    "id": 4082,
+    "id": 4135,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4070,
+        "id": 4123,
         "literals": [
           "solidity",
           "^",
@@ -69,10 +69,10 @@
       {
         "absolutePath": "/C/Users/tredg/Providentia/contracts/ProxyReceiver/ProxyBaseStorage.sol",
         "file": "../ProxyBaseStorage.sol",
-        "id": 4071,
+        "id": 4124,
         "nodeType": "ImportDirective",
-        "scope": 4082,
-        "sourceUnit": 4432,
+        "scope": 4135,
+        "sourceUnit": 4485,
         "src": "27:33:19",
         "symbolAliases": [],
         "unitAlias": ""
@@ -83,41 +83,41 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 4072,
+              "id": 4125,
               "name": "ProxyBaseStorage",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4431,
+              "referencedDeclaration": 4484,
               "src": "503:16:19",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ProxyBaseStorage_$4431",
+                "typeIdentifier": "t_contract$_ProxyBaseStorage_$4484",
                 "typeString": "contract ProxyBaseStorage"
               }
             },
-            "id": 4073,
+            "id": 4126,
             "nodeType": "InheritanceSpecifier",
             "src": "503:16:19"
           }
         ],
         "contractDependencies": [
-          4431
+          4484
         ],
         "contractKind": "contract",
         "documentation": "////////////////////////////////////////////////////////////////////////////////////////////////",
         "fullyImplemented": true,
-        "id": 4076,
+        "id": 4129,
         "linearizedBaseContracts": [
-          4076,
-          4431
+          4129,
+          4484
         ],
         "name": "ProxyReceiverStorage_001_ERC1155MockReceiver",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 4075,
+            "id": 4128,
             "name": "shouldReject",
             "nodeType": "VariableDeclaration",
-            "scope": 4076,
+            "scope": 4129,
             "src": "717:24:19",
             "stateVariable": true,
             "storageLocation": "default",
@@ -126,7 +126,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 4074,
+              "id": 4127,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "717:4:19",
@@ -139,7 +139,7 @@
             "visibility": "public"
           }
         ],
-        "scope": 4082,
+        "scope": 4135,
         "src": "446:404:19"
       },
       {
@@ -148,43 +148,43 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 4077,
+              "id": 4130,
               "name": "ProxyReceiverStorage_001_ERC1155MockReceiver",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4076,
+              "referencedDeclaration": 4129,
               "src": "1008:44:19",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ProxyReceiverStorage_001_ERC1155MockReceiver_$4076",
+                "typeIdentifier": "t_contract$_ProxyReceiverStorage_001_ERC1155MockReceiver_$4129",
                 "typeString": "contract ProxyReceiverStorage_001_ERC1155MockReceiver"
               }
             },
-            "id": 4078,
+            "id": 4131,
             "nodeType": "InheritanceSpecifier",
             "src": "1008:44:19"
           }
         ],
         "contractDependencies": [
-          4076,
-          4431
+          4129,
+          4484
         ],
         "contractKind": "contract",
         "documentation": "////////////////////////////////////////////////////////////////////////////////////////////////",
         "fullyImplemented": true,
-        "id": 4081,
+        "id": 4134,
         "linearizedBaseContracts": [
-          4081,
-          4076,
-          4431
+          4134,
+          4129,
+          4484
         ],
         "name": "ProxyReceiverStorage_002_ERCXXXXFuture",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 4080,
+            "id": 4133,
             "name": "shouldRejectXXXX",
             "nodeType": "VariableDeclaration",
-            "scope": 4081,
+            "scope": 4134,
             "src": "1165:28:19",
             "stateVariable": true,
             "storageLocation": "default",
@@ -193,7 +193,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 4079,
+              "id": 4132,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "1165:4:19",
@@ -206,7 +206,7 @@
             "visibility": "public"
           }
         ],
-        "scope": 4082,
+        "scope": 4135,
         "src": "957:417:19"
       }
     ],
@@ -216,17 +216,17 @@
     "absolutePath": "/C/Users/tredg/Providentia/contracts/ProxyReceiver/Delegates/DelegatesStorage.sol",
     "exportedSymbols": {
       "ProxyReceiverStorage_001_ERC1155MockReceiver": [
-        4076
+        4129
       ],
       "ProxyReceiverStorage_002_ERCXXXXFuture": [
-        4081
+        4134
       ]
     },
-    "id": 4082,
+    "id": 4135,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4070,
+        "id": 4123,
         "literals": [
           "solidity",
           "^",
@@ -239,10 +239,10 @@
       {
         "absolutePath": "/C/Users/tredg/Providentia/contracts/ProxyReceiver/ProxyBaseStorage.sol",
         "file": "../ProxyBaseStorage.sol",
-        "id": 4071,
+        "id": 4124,
         "nodeType": "ImportDirective",
-        "scope": 4082,
-        "sourceUnit": 4432,
+        "scope": 4135,
+        "sourceUnit": 4485,
         "src": "27:33:19",
         "symbolAliases": [],
         "unitAlias": ""
@@ -253,41 +253,41 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 4072,
+              "id": 4125,
               "name": "ProxyBaseStorage",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4431,
+              "referencedDeclaration": 4484,
               "src": "503:16:19",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ProxyBaseStorage_$4431",
+                "typeIdentifier": "t_contract$_ProxyBaseStorage_$4484",
                 "typeString": "contract ProxyBaseStorage"
               }
             },
-            "id": 4073,
+            "id": 4126,
             "nodeType": "InheritanceSpecifier",
             "src": "503:16:19"
           }
         ],
         "contractDependencies": [
-          4431
+          4484
         ],
         "contractKind": "contract",
         "documentation": "////////////////////////////////////////////////////////////////////////////////////////////////",
         "fullyImplemented": true,
-        "id": 4076,
+        "id": 4129,
         "linearizedBaseContracts": [
-          4076,
-          4431
+          4129,
+          4484
         ],
         "name": "ProxyReceiverStorage_001_ERC1155MockReceiver",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 4075,
+            "id": 4128,
             "name": "shouldReject",
             "nodeType": "VariableDeclaration",
-            "scope": 4076,
+            "scope": 4129,
             "src": "717:24:19",
             "stateVariable": true,
             "storageLocation": "default",
@@ -296,7 +296,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 4074,
+              "id": 4127,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "717:4:19",
@@ -309,7 +309,7 @@
             "visibility": "public"
           }
         ],
-        "scope": 4082,
+        "scope": 4135,
         "src": "446:404:19"
       },
       {
@@ -318,43 +318,43 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 4077,
+              "id": 4130,
               "name": "ProxyReceiverStorage_001_ERC1155MockReceiver",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4076,
+              "referencedDeclaration": 4129,
               "src": "1008:44:19",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ProxyReceiverStorage_001_ERC1155MockReceiver_$4076",
+                "typeIdentifier": "t_contract$_ProxyReceiverStorage_001_ERC1155MockReceiver_$4129",
                 "typeString": "contract ProxyReceiverStorage_001_ERC1155MockReceiver"
               }
             },
-            "id": 4078,
+            "id": 4131,
             "nodeType": "InheritanceSpecifier",
             "src": "1008:44:19"
           }
         ],
         "contractDependencies": [
-          4076,
-          4431
+          4129,
+          4484
         ],
         "contractKind": "contract",
         "documentation": "////////////////////////////////////////////////////////////////////////////////////////////////",
         "fullyImplemented": true,
-        "id": 4081,
+        "id": 4134,
         "linearizedBaseContracts": [
-          4081,
-          4076,
-          4431
+          4134,
+          4129,
+          4484
         ],
         "name": "ProxyReceiverStorage_002_ERCXXXXFuture",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 4080,
+            "id": 4133,
             "name": "shouldRejectXXXX",
             "nodeType": "VariableDeclaration",
-            "scope": 4081,
+            "scope": 4134,
             "src": "1165:28:19",
             "stateVariable": true,
             "storageLocation": "default",
@@ -363,7 +363,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 4079,
+              "id": 4132,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "1165:4:19",
@@ -376,7 +376,7 @@
             "visibility": "public"
           }
         ],
-        "scope": 4082,
+        "scope": 4135,
         "src": "957:417:19"
       }
     ],
@@ -388,7 +388,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-07T12:50:28.703Z",
+  "updatedAt": "2019-07-07T13:12:00.261Z",
   "devdoc": {
     "methods": {}
   },

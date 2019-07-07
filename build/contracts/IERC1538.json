@@ -74,14 +74,14 @@
     "absolutePath": "/C/Users/tredg/Providentia/contracts/ProxyReceiver/IERC1538.sol",
     "exportedSymbols": {
       "IERC1538": [
-        4415
+        4468
       ]
     },
-    "id": 4416,
+    "id": 4469,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4391,
+        "id": 4444,
         "literals": [
           "solidity",
           "^",
@@ -97,9 +97,9 @@
         "contractKind": "interface",
         "documentation": "Note: the ERC-165 identifier for this interface is 0x61455567",
         "fullyImplemented": false,
-        "id": 4415,
+        "id": 4468,
         "linearizedBaseContracts": [
-          4415
+          4468
         ],
         "name": "IERC1538",
         "nodeType": "ContractDefinition",
@@ -107,20 +107,20 @@
           {
             "anonymous": false,
             "documentation": "the change was made.",
-            "id": 4395,
+            "id": 4448,
             "name": "CommitMessage",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 4394,
+              "id": 4447,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4393,
+                  "id": 4446,
                   "indexed": false,
                   "name": "message",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4395,
+                  "scope": 4448,
                   "src": "431:14:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -129,7 +129,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4392,
+                    "id": 4445,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "431:6:22",
@@ -149,20 +149,20 @@
           {
             "anonymous": false,
             "documentation": "newDelegate is the zero value address(0) if the function is being removed.",
-            "id": 4405,
+            "id": 4458,
             "name": "FunctionUpdate",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 4404,
+              "id": 4457,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4397,
+                  "id": 4450,
                   "indexed": true,
                   "name": "functionId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4405,
+                  "scope": 4458,
                   "src": "1168:25:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -171,7 +171,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 4396,
+                    "id": 4449,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "1168:6:22",
@@ -185,11 +185,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 4399,
+                  "id": 4452,
                   "indexed": true,
                   "name": "oldDelegate",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4405,
+                  "scope": 4458,
                   "src": "1195:27:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -198,7 +198,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4398,
+                    "id": 4451,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1195:7:22",
@@ -213,11 +213,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 4401,
+                  "id": 4454,
                   "indexed": true,
                   "name": "newDelegate",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4405,
+                  "scope": 4458,
                   "src": "1224:27:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -226,7 +226,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4400,
+                    "id": 4453,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1224:7:22",
@@ -241,11 +241,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 4403,
+                  "id": 4456,
                   "indexed": false,
                   "name": "functionSignature",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4405,
+                  "scope": 4458,
                   "src": "1253:24:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -254,7 +254,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4402,
+                    "id": 4455,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1253:6:22",
@@ -274,22 +274,22 @@
           {
             "body": null,
             "documentation": "This message is passed to the CommitMessage event.",
-            "id": 4414,
+            "id": 4467,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "updateContract",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4412,
+              "id": 4465,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4407,
+                  "id": 4460,
                   "name": "_delegate",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4414,
+                  "scope": 4467,
                   "src": "2025:17:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -298,7 +298,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4406,
+                    "id": 4459,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2025:7:22",
@@ -313,10 +313,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 4409,
+                  "id": 4462,
                   "name": "_functionSignatures",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4414,
+                  "scope": 4467,
                   "src": "2044:35:22",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -325,7 +325,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4408,
+                    "id": 4461,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "2044:6:22",
@@ -339,10 +339,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 4411,
+                  "id": 4464,
                   "name": "_commitMessage",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4414,
+                  "scope": 4467,
                   "src": "2081:30:22",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -351,7 +351,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4410,
+                    "id": 4463,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "2081:6:22",
@@ -367,19 +367,19 @@
               "src": "2024:88:22"
             },
             "returnParameters": {
-              "id": 4413,
+              "id": 4466,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2121:0:22"
             },
-            "scope": 4415,
+            "scope": 4468,
             "src": "2001:121:22",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 4416,
+        "scope": 4469,
         "src": "174:1951:22"
       }
     ],
@@ -389,14 +389,14 @@
     "absolutePath": "/C/Users/tredg/Providentia/contracts/ProxyReceiver/IERC1538.sol",
     "exportedSymbols": {
       "IERC1538": [
-        4415
+        4468
       ]
     },
-    "id": 4416,
+    "id": 4469,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4391,
+        "id": 4444,
         "literals": [
           "solidity",
           "^",
@@ -412,9 +412,9 @@
         "contractKind": "interface",
         "documentation": "Note: the ERC-165 identifier for this interface is 0x61455567",
         "fullyImplemented": false,
-        "id": 4415,
+        "id": 4468,
         "linearizedBaseContracts": [
-          4415
+          4468
         ],
         "name": "IERC1538",
         "nodeType": "ContractDefinition",
@@ -422,20 +422,20 @@
           {
             "anonymous": false,
             "documentation": "the change was made.",
-            "id": 4395,
+            "id": 4448,
             "name": "CommitMessage",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 4394,
+              "id": 4447,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4393,
+                  "id": 4446,
                   "indexed": false,
                   "name": "message",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4395,
+                  "scope": 4448,
                   "src": "431:14:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -444,7 +444,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4392,
+                    "id": 4445,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "431:6:22",
@@ -464,20 +464,20 @@
           {
             "anonymous": false,
             "documentation": "newDelegate is the zero value address(0) if the function is being removed.",
-            "id": 4405,
+            "id": 4458,
             "name": "FunctionUpdate",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 4404,
+              "id": 4457,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4397,
+                  "id": 4450,
                   "indexed": true,
                   "name": "functionId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4405,
+                  "scope": 4458,
                   "src": "1168:25:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -486,7 +486,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 4396,
+                    "id": 4449,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "1168:6:22",
@@ -500,11 +500,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 4399,
+                  "id": 4452,
                   "indexed": true,
                   "name": "oldDelegate",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4405,
+                  "scope": 4458,
                   "src": "1195:27:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -513,7 +513,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4398,
+                    "id": 4451,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1195:7:22",
@@ -528,11 +528,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 4401,
+                  "id": 4454,
                   "indexed": true,
                   "name": "newDelegate",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4405,
+                  "scope": 4458,
                   "src": "1224:27:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -541,7 +541,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4400,
+                    "id": 4453,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1224:7:22",
@@ -556,11 +556,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 4403,
+                  "id": 4456,
                   "indexed": false,
                   "name": "functionSignature",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4405,
+                  "scope": 4458,
                   "src": "1253:24:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -569,7 +569,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4402,
+                    "id": 4455,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1253:6:22",
@@ -589,22 +589,22 @@
           {
             "body": null,
             "documentation": "This message is passed to the CommitMessage event.",
-            "id": 4414,
+            "id": 4467,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "updateContract",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4412,
+              "id": 4465,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4407,
+                  "id": 4460,
                   "name": "_delegate",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4414,
+                  "scope": 4467,
                   "src": "2025:17:22",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -613,7 +613,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4406,
+                    "id": 4459,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2025:7:22",
@@ -628,10 +628,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 4409,
+                  "id": 4462,
                   "name": "_functionSignatures",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4414,
+                  "scope": 4467,
                   "src": "2044:35:22",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -640,7 +640,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4408,
+                    "id": 4461,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "2044:6:22",
@@ -654,10 +654,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 4411,
+                  "id": 4464,
                   "name": "_commitMessage",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4414,
+                  "scope": 4467,
                   "src": "2081:30:22",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -666,7 +666,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 4410,
+                    "id": 4463,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "2081:6:22",
@@ -682,19 +682,19 @@
               "src": "2024:88:22"
             },
             "returnParameters": {
-              "id": 4413,
+              "id": 4466,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "2121:0:22"
             },
-            "scope": 4415,
+            "scope": 4468,
             "src": "2001:121:22",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 4416,
+        "scope": 4469,
         "src": "174:1951:22"
       }
     ],
@@ -706,7 +706,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-07T12:50:28.712Z",
+  "updatedAt": "2019-07-07T13:12:00.269Z",
   "devdoc": {
     "methods": {}
   },
