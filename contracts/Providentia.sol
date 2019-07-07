@@ -71,6 +71,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         uint endDate;
         bool loanFunded;
         bool loanAccepted;
+        bool loanRepaid;
     }
 
     struct FunderTokens {
@@ -97,7 +98,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     }
 
     modifier hasFundedLoan(address _addressToFund){
-      require( addressToLoan[_addressToFund].loanFunded == false, "User has already a funded loan");
+      require( addressToLoan[_addressToFund].loanFunded == false && addressToLoan[_addressToFund].endDate != 0
+        , "User has already a funded loan");
       _;
     }
 
@@ -206,7 +208,6 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         require(bytes(addressToData[msg.sender].name).length != 0,
         "Student hasn't been added yet");
 
-        //Update the Mapping
         addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false);
 
         addressToBalance[msg.sender] = 0;
@@ -249,7 +250,6 @@ else{
       Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund].div(500), _addressToFund, addressToData[_addressToFund].idNFT));
       addressToBalance[_addressToFund] += tokenAmount;
       stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
-      // change the mapping to update the loan status, add test to see if contract will still add new money in it
     }
     }
 
@@ -283,11 +283,15 @@ else{
 
     function repayLoan() public hasActiveLoan{
 
+        require(addressToLoan[msg.sender].loanRepaid == false, "Loan already repaid");
         ERC20 stableCoinContract = ERC20(stableCoinAddress);
         uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
         stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
         //Calculate Interest matured
         _calculateInterest(tokenAmount);
+        if(addressToRepaid[msg.sender] == 50000){
+          addressToLoan[msg.sender].loanRepaid = true;
+        }
     }
 
     function _calculateInterest(uint tokenAmount) internal{
@@ -314,12 +318,13 @@ else{
       for(uint i = 0; i<Investors.length; i++){
         if(Investors[i]._addressFunded == _addressFunded){
           uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
-          uint share = (addressToBalance[_addressFunded].mul(_tokenAmount.div(100)));
+          uint share = (addressToBalance[_addressFunded].mul(_tokenAmount)).div(100);
           //Reduce token value
           addressToBalance[_addressFunded] -= share;
           tokensToValue[msg.sender][Investors[i].idNFT] -= _tokenAmount;
           // get share of interest
-          amount = studentToInterest[_addressFunded].mul(_tokenAmount.div(100)) + share;
+          amount = (studentToInterest[_addressFunded].mul(_tokenAmount)).div(100) + share;
+          studentToInterest[_addressFunded] -= (studentToInterest[_addressFunded].mul(_tokenAmount)).div(100);
       }
     }
 
