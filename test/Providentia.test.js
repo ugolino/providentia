@@ -51,7 +51,7 @@ contract('Token', async function(accounts) {
   describe('addStudent', function() {
     it('should add a Student ', async function() {
       await providentia.addStudent(accounts[8],1010, "Mark", 18, "Canada",
-            "https://github.com/Solexplorer", "Lambda School", "");
+            "https://github.com/Solexplorer", "Lambda School", "",{from:accounts[4]});
 
       var personalData = await providentia.addressToData(accounts[8]);
       assert( personalData.name == "Mark");
@@ -60,7 +60,7 @@ contract('Token', async function(accounts) {
 
       await truffleAssert.reverts(
         providentia.addStudent(accounts[8], 1020,"Rob", 18, "France",
-        "https://github.com/Ugolino", "Lambda School", ""),
+        "https://github.com/Ugolino", "Lambda School", "", {from:accounts[4]}),
         "An address can only have one Student associated"
       )
 
@@ -139,6 +139,15 @@ contract('Token', async function(accounts) {
 
      })
 
+     it('should throw errors', async function() {
+       await daiToken.approve(providentia.address, 50000, {from: accounts[2]});
+
+       await truffleAssert .reverts(
+         providentia.addMoneyPool(accounts[8], {from: accounts[2]}),
+         "User has already a funded loan"
+       )
+     })
+
 
 
     })
@@ -190,8 +199,8 @@ contract('Token', async function(accounts) {
     describe('withdrawRepaidLoan', function() {
       it('should let investors withdraw their loan', async function() {
 
-        
-        await providentia.withdrawRepaidLoan(accounts[8], {from: accounts[2]});
+
+        //await providentia.withdrawRepaidLoan(accounts[8], {from: accounts[2]});
 
 
       })
