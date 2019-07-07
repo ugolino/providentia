@@ -35,8 +35,10 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     mapping( address => mapping(uint => uint) ) tokensToValue;
     // @dev Name of University To Address
     mapping( string => address) addressToUniversity;
-
+    // @dev Address to amount of repaid loan
     mapping( address => uint) addressToRepaid;
+    // @dev Address to amount remaining to investor( used to track withdrawals of investors)
+    mapping( address => uint) addressToInvestor;
 
         /***********************************|
         |        Variables and Events       |
@@ -230,6 +232,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         studentHasLoan[msg.sender] = false;
         // Instantiate the mapping
         addressToRepaid[msg.sender] = 0;
+        //Instantiate the Mapping
+        addressToInvestor[msg.sender] = 0;
 
     }
 
@@ -262,6 +266,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         addressToLoan[_addressToFund].loanFunded = true;
         // AddressToBalance will have 50k when the loan has been funded
         addressToBalance[_addressToFund] +=50000 - addressToBalance[_addressToFund];
+        // Instantiate with an initial value of 50K as that's the amount of the loan
+        addressToInvestor[_addressToFund] = 50000;
 
       }
 else{
@@ -328,7 +334,7 @@ else{
       // Calculate the interest
       uint _interest = ( 50000 * (addressToLoan[msg.sender].interestLoan.mul(100)).mul(addressToLoan[msg.sender].startDate.diffDays( now)) ).div(36500);
       // Add tokenAmount to mapping
-      addressToRepaid[msg.sender] += tokenAmount;
+      addressToRepaid[msg.sender] += tokenAmount.sub(_interest);
       // Add interest to mapping
       studentToInterest[msg.sender] = studentToInterest[msg.sender].add(_interest);
     }
@@ -340,7 +346,8 @@ else{
     function withdrawRepaidLoan(address _addressFunded) public {
 
             require( addressToLoan[_addressFunded].startDate.diffYears(now) > 4);
-            require(addressToLoan[_addressFunded].loanAccepted == true, "Loan was not funded/accepted");
+            require( addressToLoan[_addressFunded].loanAccepted == true, "Loan was not funded/accepted");
+            require( addressToRepaid[_addressFunded] == 50000, "Loan not fully funded");
             //Calculate share
             uint share = _calculateRepayment(_addressFunded);
             //ERC20 stableCoinContract = ERC20(stableCoinAddress);
@@ -352,9 +359,9 @@ else{
       for(uint i = 0; i<Investors.length; i++){
         if(Investors[i]._addressFunded == _addressFunded){
           uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
-          uint share = (addressToBalance[_addressFunded].mul(_tokenAmount)).div(100);
+          uint share = (addressToRepaid[_addressFunded].mul(_tokenAmount)).div(100);
           //Reduce token value
-          addressToBalance[_addressFunded] -= share;
+          addressToInvestor[_addressFunded] -= share;
           //Reduce amount of tokens
           tokensToValue[msg.sender][Investors[i].idNFT] -= _tokenAmount;
           // Calculate share of interest
