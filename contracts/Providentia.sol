@@ -319,7 +319,7 @@ else{
           addressToBalance[_addressFunded] -= share;
           tokensToValue[msg.sender][Investors[i].idNFT] -= _tokenAmount;
           // get share of interest
-          amount = studentToInterest[_addressFunded].mul(_tokenAmount.div(100)) + share
+          amount = studentToInterest[_addressFunded].mul(_tokenAmount.div(100)) + share;
       }
     }
 
