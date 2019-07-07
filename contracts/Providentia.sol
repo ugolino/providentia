@@ -188,7 +188,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       string memory _universityName
       )
       public onlyOwner{
-        require(addressToUniversity[_universityName] == address(0));
+        require(addressToUniversity[_universityName] == address(0), "University already registered");
         addressToUniversity[_universityName] = _addressSchool;
     }
 
@@ -221,6 +221,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     */
     function addMoneyPool(address _addressToFund) public hasFundedLoan(_addressToFund){
       require(bytes(addressToLoan[_addressToFund].endDate != 0), "Address has not requested a loan")
+
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
 
@@ -253,7 +254,7 @@ else{
       @param _amount Amount the user is willing to withdraw
     */
     function withdrawLoan(uint _amount) public{
-      //check user has funded loan
+      require(addressToLoan[msg.sender].loanAccepted == true, "Loan was not funded/accepted");
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       stableCoinContract.transfer(msg.sender, _amount);
@@ -287,8 +288,8 @@ else{
 
     function _calculateInterest(uint tokenAmount) internal{
       uint _interest = ( 50000 * (addressToLoan[msg.sender].interestLoan.mul(100)).mul(addressToLoan[msg.sender].startDate.diffDays( now)) ).div(36500);
-    //  addressToBalance[msg.sender].sub(tokenAmount.sub(_interest));
-      studentToInterest[msg.sender].add(_interest);
+      addressToBalance[msg.sender] = addressToBalance[msg.sender].sub(tokenAmount);
+      studentToInterest[msg.sender] = studentToInterest[msg.sender].add(_interest);
     }
 
     /**
