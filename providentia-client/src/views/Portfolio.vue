@@ -59,13 +59,13 @@ import { mapState } from 'vuex'
             name: 'Lambda School',
             size: 50000,
             createdAt: "07/05/2019",
-            return: '11%',
+            return: '19%',
           },
           {
             name: 'Purdue University Computer Science',
             size: 50000,
             createdAt: "07/04/2019",
-            return: '8%',
+            return: '24%',
           },
         ]
       }
