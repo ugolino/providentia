@@ -20,7 +20,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     // @dev Mapping used to store user data
     mapping( address => StudentData ) public addressToData;
-    // @dev Mappiing used to store the details of the Loan
+    // @dev Mapping used to store the details of the Loan
     mapping( address => StudentLoan) public addressToLoan;
     // @dev Mapping used to track the Loan of the student
     mapping( address => uint) public addressToBalance;
@@ -84,6 +84,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     }
 
     FunderTokens[] public Investors;
+
+    StudentData[] public Students;
 
     address[] sendTokens ;
 
@@ -184,6 +186,16 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           _profAccount,
           _type
           );
+
+        Students.push(StudentData(
+          _addressStudent,
+          _studentId,
+          _name,
+          _age,
+          _country,
+          _university,
+          _profAccount,
+          _type));
 
           // Trigger event
         emit studentCreated(
@@ -352,7 +364,6 @@ else{
             uint share = _calculateRepayment(_addressFunded);
             //ERC20 stableCoinContract = ERC20(stableCoinAddress);
             stableCoinContract.transfer(msg.sender, share);
-
     }
 
     function _calculateRepayment(address _addressFunded) internal returns(uint amount) {

@@ -1,4 +1,4 @@
-export const ABI =  [
+export const ABI =   [
   {
     "constant": true,
     "inputs": [
@@ -213,6 +213,53 @@ export const ABI =  [
       {
         "name": "",
         "type": "uint256[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "Students",
+    "outputs": [
+      {
+        "name": "addressStudent",
+        "type": "address"
+      },
+      {
+        "name": "studentId",
+        "type": "uint256"
+      },
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "age",
+        "type": "uint256"
+      },
+      {
+        "name": "country",
+        "type": "string"
+      },
+      {
+        "name": "university",
+        "type": "string"
+      },
+      {
+        "name": "profAccount",
+        "type": "string"
+      },
+      {
+        "name": "idNFT",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -600,6 +647,10 @@ export const ABI =  [
       },
       {
         "name": "loanAccepted",
+        "type": "bool"
+      },
+      {
+        "name": "loanRepaid",
         "type": "bool"
       }
     ],
@@ -1156,44 +1207,6 @@ export const ABI =  [
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_addressFunded",
-        "type": "address"
-      }
-    ],
-    "name": "getShare",
-    "outputs": [
-      {
-        "name": "_share",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_addressFunded",
-        "type": "address"
-      }
-    ],
-    "name": "tokensAmount",
-    "outputs": [
-      {
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
     "type": "function"
   }
 ]

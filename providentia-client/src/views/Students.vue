@@ -137,7 +137,7 @@ import { ABI } from './abi.js';
         const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
         const web3 = new Web3(portis.provider);
 
-        const providentia = new web3.eth.Contract(ABI,'0x8a85711171c977dF06A66Ba793FC27fC6fBCEB94');
+        const providentia = new web3.eth.Contract(ABI,'0xdee5E2bA6065E07B534053B832D24094B6a6bBAA');
         //const providentia = contract.at('0x9f2f52F3B254Ca497bc88056518a70A5FbcfA650');
         console.log(web3);
         portis.onLogin((walletAddress, email, reputation) => {

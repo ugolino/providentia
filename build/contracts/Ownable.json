@@ -252,7 +252,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5574,
+                        "referencedDeclaration": 5592,
                         "src": "563:3:17",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -578,10 +578,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5577,
-                        5578
+                        5595,
+                        5596
                       ],
-                      "referencedDeclaration": 5578,
+                      "referencedDeclaration": 5596,
                       "src": "909:7:17",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -652,7 +652,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5574,
+                        "referencedDeclaration": 5592,
                         "src": "1162:3:17",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1276,10 +1276,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5577,
-                        5578
+                        5595,
+                        5596
                       ],
-                      "referencedDeclaration": 5578,
+                      "referencedDeclaration": 5596,
                       "src": "2217:7:17",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -1652,7 +1652,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5574,
+                        "referencedDeclaration": 5592,
                         "src": "563:3:17",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1978,10 +1978,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5577,
-                        5578
+                        5595,
+                        5596
                       ],
-                      "referencedDeclaration": 5578,
+                      "referencedDeclaration": 5596,
                       "src": "909:7:17",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2052,7 +2052,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5574,
+                        "referencedDeclaration": 5592,
                         "src": "1162:3:17",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -2676,10 +2676,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5577,
-                        5578
+                        5595,
+                        5596
                       ],
-                      "referencedDeclaration": 5578,
+                      "referencedDeclaration": 5596,
                       "src": "2217:7:17",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2889,7 +2889,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-07T17:19:48.301Z",
+  "updatedAt": "2019-07-07T17:55:36.229Z",
   "devdoc": {
     "details": "The Ownable contract has an owner address, and provides basic authorization control\r functions, this simplifies the implementation of \"user permissions\".\r",
     "methods": {
