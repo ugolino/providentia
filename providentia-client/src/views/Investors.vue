@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center>
-    <v-layout row wrap>
+    <v-layout row wrap class="investments">
       <v-flex xs12>
         <h1 class="text-xs-center py-2">Are you an investor?</h1>
         <p class="headline text-xs-center">Make your investment</p>
@@ -14,7 +14,7 @@
           class="elevation-0 my-2 text-sm-left"
           >
           <v-divider light></v-divider>
-          <v-layout align-center justify-space-around>
+          <v-layout row wrap align-center justify-space-around>
             <v-flex xs6 md1>
               <v-img
                 :src="school.logo"
@@ -31,13 +31,13 @@
             </v-flex>
             <v-flex xs4 md2 class="text-sm-center">
               <h4 class="headline">{{school.stats.employment_rate}}</h4>
-              <p>current employment rate</p>
+              <p>current empl. rate</p>
             </v-flex>
             <v-flex xs4 md2 class="text-sm-center">
               <h4 class="headline">{{school.stats.months_to_repay}}</h4>
               <p>avg months to repay</p>
             </v-flex>
-            <v-flex xs4 md3 class="text-sm-center">
+            <v-flex xs12 md3 class="text-sm-center">
               <v-btn
                 color="primary elevation-0"
                 @click="selectedSchool === index ? selectAllStudents(school) : selectedSchool = index"
@@ -82,14 +82,24 @@
       </v-flex>
     </v-layout>
     <v-footer fixed class="pa-5" color="secondary">
-      <h4>You selected <b>{{selectedStudents.length}}</b> students</h4>
-      <v-spacer></v-spacer>
-      <v-btn
-        class="primary"
-        large
-      >
-        Conferm Investment
-      </v-btn>
+      <v-layout row wrap>
+        <v-flex xs-12>
+           <h4>You selected <b>{{selectedStudents.length}}</b> students</h4>
+        </v-flex>
+        <v-spacer></v-spacer>
+        <v-flex xs-12>
+          <v-btn
+            class="primary"
+            large
+          >
+            Conferm Investment
+          </v-btn>
+        </v-flex>
+     
+      
+      
+      </v-layout>
+
     </v-footer>
   </v-container>
 </template>
@@ -136,3 +146,9 @@ import { mapState } from 'vuex'
     }
   }
 </script>
+
+<style>
+.investments {
+  padding-bottom: 100px;
+}
+</style>
