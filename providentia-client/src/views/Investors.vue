@@ -223,6 +223,8 @@ import { ABI } from './abi.js';
 
         const providentia = new web3.eth.Contract(ABI,'0xdee5E2bA6065E07B534053B832D24094B6a6bBAA');
         const daiToken = new web3.eth.Contract(abi, '0x85e94abdb3f729af159733548283b9fc78b688f5');
+        var amountSend = 10000
+        const tokenAmountHex =  web3.utils.toHex(1000 * 10**16)
 
         portis.onLogin((walletAddress, email, reputation) => {
           console.log(walletAddress);
@@ -234,8 +236,8 @@ import { ABI } from './abi.js';
                 var firstName = this.selectedStudents[i -1].name.substr(0,this.selectedStudents[i -1].name.indexOf(' '))
               } catch(err){}
               console.log(result)
+
                 if(firstName == result[2] ){
-                  const tokenAmountHex = '0x' + amountSend.mul(web3.utils.toBN(1000).pow(16)).toString('hex')
                   const batch = new web3.BatchRequest();
                   batch.add(daiToken.methods.approve(providentia.address, tokenAmountHex).send({
                     from: walletAddress

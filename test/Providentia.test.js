@@ -74,7 +74,7 @@ contract('Token', async function(accounts) {
         await providentia.requestLoan(4, {from:accounts[8]});
 
         var loan = await providentia.addressToLoan(accounts[8]);
-        assert(loan.amountDAI == "50000");
+        assert(loan.amountDAI == "10000");
 
       })
 
@@ -121,7 +121,7 @@ contract('Token', async function(accounts) {
 
      it('should fund the Loan completely', async function() {
 
-       await daiToken.approve(providentia.address, 50000, {from: accounts[2]});
+       await daiToken.approve(providentia.address, 10000, {from: accounts[2]});
 
        await providentia.addMoneyPool(accounts[8], {from: accounts[2]});
 
@@ -140,7 +140,7 @@ contract('Token', async function(accounts) {
      })
 
      it('should throw errors', async function() {
-       await daiToken.approve(providentia.address, 50000, {from: accounts[2]});
+       await daiToken.approve(providentia.address, 10000, {from: accounts[2]});
 
        await truffleAssert .reverts(
          providentia.addMoneyPool(accounts[8], {from: accounts[2]}),
