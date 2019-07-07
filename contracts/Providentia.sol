@@ -154,6 +154,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
         require(addressToUniversity[_university] != address(0), "University hasn't been added yet");
 
+        require(msg.sender == addressToUniversity[_university], "Sender is not a registered university");
+
         uint _type = _token.create(_uri, true);
         _token.mintNonFungible(_type, sendTokens);
         uint _id = _token.create(_uri, false);
@@ -218,6 +220,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     */
     function addMoneyPool(address _addressToFund) public hasFundedLoan(_addressToFund){
+      require(bytes(addressToLoan[_addressToFund].endDate != 0), "Address has not requested a loan")
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
 
@@ -241,6 +244,7 @@ else{
       Investors.push(FunderTokens(msg.sender, 50000 - addressToBalance[_addressToFund].div(500), _addressToFund, addressToData[_addressToFund].idNFT));
       addressToBalance[_addressToFund] += tokenAmount;
       stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
+      // change the mapping to update the loan status, add test to see if contract will still add new money in it
     }
     }
 
@@ -249,6 +253,7 @@ else{
       @param _amount Amount the user is willing to withdraw
     */
     function withdrawLoan(uint _amount) public{
+      //check user has funded loan
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
       stableCoinContract.transfer(msg.sender, _amount);
@@ -291,7 +296,7 @@ else{
       @param _addressFunded Address of the funded student
     */
     function withdrawRepaidLoan(address _addressFunded) public {
-
+        // add some checks here time passed more than 1 year
             uint share = _calculateRepayment(_addressFunded);
             ERC20 stableCoinContract = ERC20(stableCoinAddress);
             stableCoinContract.transfer(msg.sender, share);
@@ -311,17 +316,5 @@ else{
     }
 
     }
-
-
-  /*  function getShare(address _addressFunded) public view returns(uint _share){
-      for(uint i = 0; i<Investors.length; i++){
-        if(Investors[i]._addressFunded == _addressFunded){
-          uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
-          _share = (addressToBalance[_addressFunded].mul(_tokenAmount.div(100)));
-          //Reduce token value
-      }
-
-    }
-  }*/
 
 }
