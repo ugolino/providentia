@@ -10,6 +10,7 @@
   "dependencies": {
     "@portis/web3": "^2.0.0-beta.31",
     "core-js": "^2.6.5",
+    "human-standard-token-abi": "^2.0.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "terser": "^4.0.0",
