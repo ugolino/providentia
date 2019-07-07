@@ -36,6 +36,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     // @dev Name of University To Address
     mapping( string => address) addressToUniversity;
 
+    mapping( address => uint) addressToRepaid;
+
         /***********************************|
         |        Variables and Events       |
         |__________________________________*/
@@ -211,6 +213,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         // When requesting a loan the Student hasn't accept it yet
         studentHasLoan[msg.sender] = false;
 
+        addressToRepaid[msg.sender] = 0;
+
     }
 
     /**
@@ -257,7 +261,7 @@ else{
       require(addressToLoan[msg.sender].loanAccepted == true, "Loan was not funded/accepted");
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
       ERC20 stableCoinContract = ERC20(stableCoinAddress);
-      stableCoinContract.transfer(msg.sender, _amount);
+      stableCoinContract.transfer(addressToUniversity[addressToData[msg.sender].university], _amount);
       addressToBalance[msg.sender] -= _amount;
     }
 
@@ -288,7 +292,7 @@ else{
 
     function _calculateInterest(uint tokenAmount) internal{
       uint _interest = ( 50000 * (addressToLoan[msg.sender].interestLoan.mul(100)).mul(addressToLoan[msg.sender].startDate.diffDays( now)) ).div(36500);
-      addressToBalance[msg.sender] = addressToBalance[msg.sender].sub(tokenAmount);
+      addressToRepaid[msg.sender] += tokenAmount;
       studentToInterest[msg.sender] = studentToInterest[msg.sender].add(_interest);
     }
 
@@ -299,21 +303,23 @@ else{
     function withdrawRepaidLoan(address _addressFunded) public {
 
             require( addressToLoan[_addressFunded].startDate.diffYears(now) > 1);
+            require(addressToLoan[_addressFunded].loanAccepted == true, "Loan was not funded/accepted");
             uint share = _calculateRepayment(_addressFunded);
             ERC20 stableCoinContract = ERC20(stableCoinAddress);
             stableCoinContract.transfer(msg.sender, share);
 
     }
 
-    function _calculateRepayment(address _addressFunded) internal returns(uint share) {
+    function _calculateRepayment(address _addressFunded) internal returns(uint amount) {
       for(uint i = 0; i<Investors.length; i++){
         if(Investors[i]._addressFunded == _addressFunded){
           uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
-          share = (addressToBalance[_addressFunded].mul(_tokenAmount.div(100)));
+          uint share = (addressToBalance[_addressFunded].mul(_tokenAmount.div(100)));
           //Reduce token value
           addressToBalance[_addressFunded] -= share;
           tokensToValue[msg.sender][Investors[i].idNFT] -= _tokenAmount;
           // get share of interest
+          amount = studentToInterest[_addressFunded].mul(_tokenAmount.div(100)) + share
       }
     }
 
