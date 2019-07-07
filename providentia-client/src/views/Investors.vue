@@ -42,7 +42,7 @@
                 color="primary elevation-0"
                 @click="selectedSchool === index ? selectAllStudents(school) : selectedSchool = index"
                 >
-                {{ selectedSchool === index ? 'Invest in all students' : 'Select Investment' }}
+                {{ selectedSchool === index ? 'Invest in all students' : 'Select Students' }}
               </v-btn>
               
             </v-flex>
@@ -73,18 +73,24 @@
                 </h4>
               </v-flex>
                 <v-flex xs4 md3 class="text-sm-center">
-                <v-btn
-                  color="primary elevation-0"
-                  @click="addStudent(student)"
-                  >
-                  {{ selectedStudents.includes(student) ? 'remove' : "select" }}
-                </v-btn>
+                  <v-icon v-if="selectedStudents.includes(student)" @click="addStudent(student)">check</v-icon>
+                  <v-icon v-else @click="addStudent(student)">check_box_outline_blank</v-icon>
               </v-flex>
             </v-layout>
           </div>
         </v-card>
       </v-flex>
     </v-layout>
+    <v-footer fixed class="pa-5" color="secondary">
+      <h4 class="headline">You selected <b>{{selectedStudents.length}}</b> students</h4>
+      <v-spacer></v-spacer>
+      <v-btn
+        class="primary"
+        large
+      >
+        Conferm Investment
+      </v-btn>
+    </v-footer>
   </v-container>
 </template>
 
@@ -109,19 +115,18 @@ import { mapState } from 'vuex'
     },
     methods: {
       addStudent(student){
-        console.log(student)
-        console.log(this.selectedStudents.includes(student))
         if (!this.selectedStudents.includes(student)) {
-          console.log('not included')
           this.selectedStudents.push(student)
         } else {
-          this.selectedStudents.shift(student)
+          var index = this.selectedStudents.indexOf(student);
+          if (index > -1) {
+            this.selectedStudents.splice(index, 1);
+          }
         }
       },
       selectAllStudents(school){
         school.students.map((student, index) => {
           if (!this.selectedStudents.includes(student)) {
-            console.log('not included')
             this.selectedStudents.push(student)
           } else {
             this.selectedStudents.shift(student)
