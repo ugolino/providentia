@@ -32,14 +32,14 @@
     "absolutePath": "/C/Users/tredg/Providentia/contracts/ProxyReceiver/ProxyBaseStorage.sol",
     "exportedSymbols": {
       "ProxyBaseStorage": [
-        4484
+        4465
       ]
     },
-    "id": 4485,
+    "id": 4466,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4470,
+        "id": 4451,
         "literals": [
           "solidity",
           "^",
@@ -55,19 +55,19 @@
         "contractKind": "contract",
         "documentation": "////////////////////////////////////////////////////////////////////////////////////////////////",
         "fullyImplemented": true,
-        "id": 4484,
+        "id": 4465,
         "linearizedBaseContracts": [
-          4484
+          4465
         ],
         "name": "ProxyBaseStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 4474,
+            "id": 4455,
             "name": "delegates",
             "nodeType": "VariableDeclaration",
-            "scope": 4484,
+            "scope": 4465,
             "src": "575:43:23",
             "stateVariable": true,
             "storageLocation": "default",
@@ -76,9 +76,9 @@
               "typeString": "mapping(bytes4 => address)"
             },
             "typeName": {
-              "id": 4473,
+              "id": 4454,
               "keyType": {
-                "id": 4471,
+                "id": 4452,
                 "name": "bytes4",
                 "nodeType": "ElementaryTypeName",
                 "src": "583:6:23",
@@ -94,7 +94,7 @@
                 "typeString": "mapping(bytes4 => address)"
               },
               "valueType": {
-                "id": 4472,
+                "id": 4453,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "593:7:23",
@@ -110,10 +110,10 @@
           },
           {
             "constant": false,
-            "id": 4477,
+            "id": 4458,
             "name": "funcSignatures",
             "nodeType": "VariableDeclaration",
-            "scope": 4484,
+            "scope": 4465,
             "src": "691:31:23",
             "stateVariable": true,
             "storageLocation": "default",
@@ -123,7 +123,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 4475,
+                "id": 4456,
                 "name": "bytes",
                 "nodeType": "ElementaryTypeName",
                 "src": "691:5:23",
@@ -132,7 +132,7 @@
                   "typeString": "bytes"
                 }
               },
-              "id": 4476,
+              "id": 4457,
               "length": null,
               "nodeType": "ArrayTypeName",
               "src": "691:7:23",
@@ -146,10 +146,10 @@
           },
           {
             "constant": false,
-            "id": 4481,
+            "id": 4462,
             "name": "funcSignatureToIndex",
             "nodeType": "VariableDeclaration",
-            "scope": 4484,
+            "scope": 4465,
             "src": "842:55:23",
             "stateVariable": true,
             "storageLocation": "default",
@@ -158,9 +158,9 @@
               "typeString": "mapping(bytes => uint256)"
             },
             "typeName": {
-              "id": 4480,
+              "id": 4461,
               "keyType": {
-                "id": 4478,
+                "id": 4459,
                 "name": "bytes",
                 "nodeType": "ElementaryTypeName",
                 "src": "850:5:23",
@@ -176,7 +176,7 @@
                 "typeString": "mapping(bytes => uint256)"
               },
               "valueType": {
-                "id": 4479,
+                "id": 4460,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "859:7:23",
@@ -191,10 +191,10 @@
           },
           {
             "constant": false,
-            "id": 4483,
+            "id": 4464,
             "name": "proxy",
             "nodeType": "VariableDeclaration",
-            "scope": 4484,
+            "scope": 4465,
             "src": "1002:13:23",
             "stateVariable": true,
             "storageLocation": "default",
@@ -203,7 +203,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 4482,
+              "id": 4463,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "1002:7:23",
@@ -217,7 +217,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 4485,
+        "scope": 4466,
         "src": "324:800:23"
       }
     ],
@@ -227,14 +227,14 @@
     "absolutePath": "/C/Users/tredg/Providentia/contracts/ProxyReceiver/ProxyBaseStorage.sol",
     "exportedSymbols": {
       "ProxyBaseStorage": [
-        4484
+        4465
       ]
     },
-    "id": 4485,
+    "id": 4466,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4470,
+        "id": 4451,
         "literals": [
           "solidity",
           "^",
@@ -250,19 +250,19 @@
         "contractKind": "contract",
         "documentation": "////////////////////////////////////////////////////////////////////////////////////////////////",
         "fullyImplemented": true,
-        "id": 4484,
+        "id": 4465,
         "linearizedBaseContracts": [
-          4484
+          4465
         ],
         "name": "ProxyBaseStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 4474,
+            "id": 4455,
             "name": "delegates",
             "nodeType": "VariableDeclaration",
-            "scope": 4484,
+            "scope": 4465,
             "src": "575:43:23",
             "stateVariable": true,
             "storageLocation": "default",
@@ -271,9 +271,9 @@
               "typeString": "mapping(bytes4 => address)"
             },
             "typeName": {
-              "id": 4473,
+              "id": 4454,
               "keyType": {
-                "id": 4471,
+                "id": 4452,
                 "name": "bytes4",
                 "nodeType": "ElementaryTypeName",
                 "src": "583:6:23",
@@ -289,7 +289,7 @@
                 "typeString": "mapping(bytes4 => address)"
               },
               "valueType": {
-                "id": 4472,
+                "id": 4453,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "593:7:23",
@@ -305,10 +305,10 @@
           },
           {
             "constant": false,
-            "id": 4477,
+            "id": 4458,
             "name": "funcSignatures",
             "nodeType": "VariableDeclaration",
-            "scope": 4484,
+            "scope": 4465,
             "src": "691:31:23",
             "stateVariable": true,
             "storageLocation": "default",
@@ -318,7 +318,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 4475,
+                "id": 4456,
                 "name": "bytes",
                 "nodeType": "ElementaryTypeName",
                 "src": "691:5:23",
@@ -327,7 +327,7 @@
                   "typeString": "bytes"
                 }
               },
-              "id": 4476,
+              "id": 4457,
               "length": null,
               "nodeType": "ArrayTypeName",
               "src": "691:7:23",
@@ -341,10 +341,10 @@
           },
           {
             "constant": false,
-            "id": 4481,
+            "id": 4462,
             "name": "funcSignatureToIndex",
             "nodeType": "VariableDeclaration",
-            "scope": 4484,
+            "scope": 4465,
             "src": "842:55:23",
             "stateVariable": true,
             "storageLocation": "default",
@@ -353,9 +353,9 @@
               "typeString": "mapping(bytes => uint256)"
             },
             "typeName": {
-              "id": 4480,
+              "id": 4461,
               "keyType": {
-                "id": 4478,
+                "id": 4459,
                 "name": "bytes",
                 "nodeType": "ElementaryTypeName",
                 "src": "850:5:23",
@@ -371,7 +371,7 @@
                 "typeString": "mapping(bytes => uint256)"
               },
               "valueType": {
-                "id": 4479,
+                "id": 4460,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
                 "src": "859:7:23",
@@ -386,10 +386,10 @@
           },
           {
             "constant": false,
-            "id": 4483,
+            "id": 4464,
             "name": "proxy",
             "nodeType": "VariableDeclaration",
-            "scope": 4484,
+            "scope": 4465,
             "src": "1002:13:23",
             "stateVariable": true,
             "storageLocation": "default",
@@ -398,7 +398,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 4482,
+              "id": 4463,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "1002:7:23",
@@ -412,7 +412,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 4485,
+        "scope": 4466,
         "src": "324:800:23"
       }
     ],
@@ -424,7 +424,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-07T13:12:00.273Z",
+  "updatedAt": "2019-07-07T13:49:42.268Z",
   "devdoc": {
     "methods": {}
   },

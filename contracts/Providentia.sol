@@ -91,6 +91,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     ERC1155MixedFungibleMintable _token;
 
+    ERC20 stableCoinContract = ERC20(stableCoinAddress);
+
     modifier hasRequestedLoan(){
       // Check if Student has already requested a loan
         require( addressToLoan[msg.sender].amountDAI == 0, "User has already initiated a Loan process");
@@ -160,11 +162,16 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
         require(msg.sender == addressToUniversity[_university], "Sender is not a registered university");
 
+        // Mint NFT
         uint _type = _token.create(_uri, true);
+        // Send tokens to owner
         _token.mintNonFungible(_type, sendTokens);
+        // Mint FT
         uint _id = _token.create(_uri, false);
+        // Send tokens to owner
         _token.mintFungible(_id, sendTokens, valueSend );
 
+        //Updae the mapping
         addressToData[_addressStudent] = StudentData(
           _addressStudent,
           _studentId,
@@ -176,6 +183,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           _type
           );
 
+          // Trigger event
         emit studentCreated(
           _addressStudent,
           _studentId,
@@ -198,6 +206,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       )
       public onlyOwner{
         require(addressToUniversity[_universityName] == address(0), "University already registered");
+        // Set address of the school
         addressToUniversity[_universityName] = _addressSchool;
     }
 
@@ -212,13 +221,14 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         //Check if the Student has been added before letting him request a loan
         require(bytes(addressToData[msg.sender].name).length != 0,
         "Student hasn't been added yet");
-
+        /*  This version will use a fixed value of 50k for the amount of loan to
+            request, the loan has a deadline of 5 years */
         addressToLoan[msg.sender] = StudentLoan(50000, _interestLoan, 0, now, now.addYears(5), false, false, false);
-
+        // Instantiate the mapping to 0
         addressToBalance[msg.sender] = 0;
-        // When requesting a loan the Student hasn't accept it yet
+        // When requesting a loan, the School hasn't accept it yet
         studentHasLoan[msg.sender] = false;
-
+        // Instantiate the mapping
         addressToRepaid[msg.sender] = 0;
 
     }
@@ -231,22 +241,19 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     */
     function addMoneyPool(address _addressToFund) public hasFundedLoan(_addressToFund){
       require(addressToLoan[_addressToFund].endDate != 0, "Address has not requested a loan");
-
-      ERC20 stableCoinContract = ERC20(stableCoinAddress);
-      uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
-
-      require(_addressToFund != address(0));
-
+      require(_addressToFund != address(0), "Address 0 given");
       require(tokenAmount >= (addressToLoan[_addressToFund].amountDAI.div(100))
-      && ( tokenAmount % 500 ) == 0 ,
-      "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
+        && ( tokenAmount % 500 ) == 0 ,
+        "The amount sent must be a multiplier of 500. Each token costs 500 DAI");
+      // Check the allowance given to the contract
+      uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
 
       // If the investor sends more than the MAX_CAP which is 50K
       if( tokenAmount >= 50000 - addressToBalance[_addressToFund] ){
         tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] += (50000 - addressToBalance[_addressToFund]).div(500);
         Investors.push(FunderTokens(msg.sender, tokenAmount.div(500), _addressToFund, addressToData[_addressToFund].idNFT));
-        addressToLoan[_addressToFund].loanFunded = true;
         stableCoinContract.transferFrom(msg.sender, address(this), 50000 - addressToBalance[_addressToFund]);
+        addressToLoan[_addressToFund].loanFunded = true;
         addressToBalance[_addressToFund] +=50000 - addressToBalance[_addressToFund];
 
       }
@@ -265,7 +272,7 @@ else{
     function withdrawLoan(uint _amount) public{
       require(addressToLoan[msg.sender].loanAccepted == true, "Loan was not funded/accepted");
       require(_amount < addressToBalance[msg.sender] || addressToBalance[msg.sender] != 0);
-      ERC20 stableCoinContract = ERC20(stableCoinAddress);
+    //  ERC20 stableCoinContract = ERC20(stableCoinAddress);
       stableCoinContract.transfer(addressToUniversity[addressToData[msg.sender].university], _amount);
       addressToBalance[msg.sender] -= _amount;
     }
@@ -289,7 +296,7 @@ else{
     function repayLoan() public hasActiveLoan{
 
         require(addressToLoan[msg.sender].loanRepaid == false, "Loan already repaid");
-        ERC20 stableCoinContract = ERC20(stableCoinAddress);
+        //ERC20 stableCoinContract = ERC20(stableCoinAddress);
         uint tokenAmount = stableCoinContract.allowance(msg.sender, address(this));
         stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
         //Calculate Interest matured
@@ -311,10 +318,10 @@ else{
     */
     function withdrawRepaidLoan(address _addressFunded) public {
 
-            require( addressToLoan[_addressFunded].startDate.diffYears(now) > 1);
+            require( addressToLoan[_addressFunded].startDate.diffYears(now) > 4);
             require(addressToLoan[_addressFunded].loanAccepted == true, "Loan was not funded/accepted");
             uint share = _calculateRepayment(_addressFunded);
-            ERC20 stableCoinContract = ERC20(stableCoinAddress);
+            //ERC20 stableCoinContract = ERC20(stableCoinAddress);
             stableCoinContract.transfer(msg.sender, share);
 
     }
