@@ -5,7 +5,7 @@
         <h1 class="display-2 my-4">Welcome to Providentia</h1>
         <h4 class="headline my-4">Decentralized marketplace for students financing</h4>
       </v-flex>
-      <v-flex xs12 sm6 md4 pa-4>
+      <v-flex xs12 sm6 md6 xl4 pa-4>
         <router-link to="students">
           <v-card
               light
@@ -22,7 +22,7 @@
           </v-card>
         </router-link>
       </v-flex>
-      <v-flex xs12 sm6 md4 pa-4>
+      <v-flex xs12 sm6 md6 xl4 pa-4>
         <router-link to="investors">
           <v-card
               light
@@ -39,19 +39,19 @@
           </v-card>
         </router-link>
       </v-flex>
-      <v-flex xs12 sm12 md8 pa-4 id="school-interest">
+      <v-flex xs12 sm12 md12 xl8 pa-4 id="school-interest">
         <a href="https://danieleugolini.typeform.com/to/JYrH2R" target="_blank">
           <v-card
             light
             class="mx-auto elevation-0"
             >
             <v-layout row wrap>
-              <v-flex sm6 md6 py-0>
+              <v-flex xs12 sm12 md6 py-0>
                 <v-img
                   src="/school.png"
                 ></v-img>
               </v-flex>
-              <v-flex sm6 md6 pa-4>
+              <v-flex xs12 sm12 md6 pa-4>
                 <h2 class="headline font-weight-bold py-2">Are you a coding School / Bootcamp?</h2>
                   <h4 class="subheading py-2">Providentia can help you with:</h4>
                   <h4 class="subheading py-2">Enroll more students due to a better financing</h4>
