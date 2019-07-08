@@ -28,6 +28,7 @@ export default {
   color: #fff;
 }
 
+
 a {
   color: #fff;
   text-decoration: none;
