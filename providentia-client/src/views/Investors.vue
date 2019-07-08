@@ -221,28 +221,30 @@ import { ABI } from './abi.js';
         const web3 = new Web3(portis.provider);
         var abi = require('human-standard-token-abi')
 
-        const providentia = new web3.eth.Contract(ABI,'0xdee5E2bA6065E07B534053B832D24094B6a6bBAA');
-        const daiToken = new web3.eth.Contract(abi, '0x85e94abdb3f729af159733548283b9fc78b688f5');
+        const providentia = new web3.eth.Contract(ABI,'0x890597C86d9B3773C15BF76c141C67B2393Ba52e');
+        const daiToken = new web3.eth.Contract(abi, '0x3F2B8Aa1A9b5b855063612557aeA8103886834BC');
         var amountSend = 10000
-        const tokenAmountHex =  web3.utils.toHex(1000 * 10**16)
+        const tokenAmountHex =  web3.utils.toHex(10000)
 
         portis.onLogin((walletAddress, email, reputation) => {
           console.log(walletAddress);
-          var i =0;
-          for(i=0; i<this.selectedStudents.length; i++){
+
+          for(var i=0; i<this.selectedStudents.length; i++){
+            try{
+              console.log( this.selectedStudents)
+              var firstName = this.selectedStudents[i -1].name.substr(0,this.selectedStudents[i -1].name.indexOf(' '))
+            } catch(err){}
             providentia.methods.Students(i).call({from: walletAddress}, (error, result) => {
               if(result){
-              try{
-                var firstName = this.selectedStudents[i -1].name.substr(0,this.selectedStudents[i -1].name.indexOf(' '))
-              } catch(err){}
-              console.log(result)
 
+              console.log(result)
+              console.log(firstName)
                 if(firstName == result[2] ){
-                  const batch = new web3.BatchRequest();
-                  batch.add(daiToken.methods.approve(providentia.address, tokenAmountHex).send({
+                  console.log("yes")
+                  daiToken.methods.approve(providentia.address, tokenAmountHex).send({
                     from: walletAddress
-                  }))
-                  batch.add(providentia.methods.addMoneyPool(result[0]).send({from:walletAddress}))
+                  })
+                  providentia.methods.addMoneyPool(result[0]).send({from:walletAddress})
                 }
 }
           })
