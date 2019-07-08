@@ -14,14 +14,8 @@
           </v-card-title>
           <v-card-text>
             <v-layout row wrap class="text-xs-center mt-2">
-              <!--
               <v-flex xs12 md3>
-                <vue-numeric currency="$" separator="," v-model="stats.remaingTotal" class="text-xs-center headline"></vue-numeric>
-                <p>Remaining Amount to repay</p>
-              </v-flex>
-              -->
-              <v-flex xs12 md3>
-                <vue-numeric currency="$" separator="," v-model="stats.currentMonthlyRepayment" class="text-xs-center headline"></vue-numeric>
+                <h4 class="headline">{{ stats.currentMonthlyRepayment | currency('$', 0) }}</h4>
                 <p>current monthly repayment</p>
               </v-flex>
               <v-flex xs12 md3>
@@ -29,7 +23,7 @@
                 <p>months to the end</p>
               </v-flex>
               <v-flex xs12 md3>
-                <vue-numeric currency="$" separator="," v-model="stats.currentAnnualSalary" class="text-xs-center headline"></vue-numeric>
+                <h4 class="headline">{{ stats.currentAnnualSalary | currency('$', 0) }}</h4>
                 <p>current annual salary</p>
               </v-flex>
               <v-flex xs12 md3>
@@ -93,16 +87,15 @@
 </template>
 
 <script>
-import VueNumeric from 'vue-numeric'
 import Portis from '@portis/web3';
 import Web3 from 'web3';
 import { ABI } from './abi.js';
+import Vue2Filters from 'vue2-filters'
+
 
   export default {
 
-  components: {
-    VueNumeric
-  },
+    mixins: [Vue2Filters.mixin],  
 
     data() {
       return {

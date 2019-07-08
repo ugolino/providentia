@@ -17,7 +17,8 @@
                 <b>{{investment.name}}</b>
               </v-flex>
               <v-flex xs4 md2>
-                <h4><vue-numeric currency="$" separator="," v-model="investment.size" class="text-xs-center headline xs4"></vue-numeric></h4>
+                <h4 class="headline">{{ investment.size | currency('$', 0) }}</h4>
+                <p class="mb-0">Amount Invested</p>
               </v-flex>
               <v-flex xs4 md2>
                 <h4 class="headline">{{investment.return}}</h4>
@@ -36,7 +37,7 @@
                     <p class="mb-0">Current Employment</p>
                   </v-flex>
                   <v-flex xs6 md2>
-                    <b><vue-numeric currency="$" separator="," v-model="student.currentSalary" class="text-xs-center"></vue-numeric></b>
+                    <b>{{student.currentSalary | currency('$', 0) }}</b>
                     <p class="mb-0">Current Salary</p>
                     </v-flex>
                   <v-flex xs6 md2>
@@ -44,7 +45,7 @@
                     <p class="mb-0">Months to repay</p>
                   </v-flex>
                   <v-flex xs6 md2>
-                    <b><vue-numeric currency="$" separator="," v-model="student.amountRepaid" class="text-xs-center"></vue-numeric></b>
+                    <b>{{student.amountRepaid | currency('$', 0)}}</b>
                     <p class="mb-0">Amount repaid to date</p>
                     </v-flex>
                 </v-layout>
@@ -61,13 +62,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import VueNumeric from 'vue-numeric'
+import Vue2Filters from 'vue2-filters'
 
   export default {
 
-    components: {
-      VueNumeric
-    },
+    mixins: [Vue2Filters.mixin],  
     
     data() {
       return {
@@ -131,12 +130,3 @@ import VueNumeric from 'vue-numeric'
     }
   }
 </script>
-
-<style lang="scss">
-  thead {
-    background-color: #898ed8;
-    th,i {
-      color: #fff !important;
-    }
-  }
-</style>

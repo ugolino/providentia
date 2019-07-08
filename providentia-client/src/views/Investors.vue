@@ -109,7 +109,7 @@
               <v-card-title class="title secondary white--text" >
                 Review Students
                 <v-spacer></v-spacer>
-                <vue-numeric currency="$" separator="," v-model="totalAmount" class="text-xs-center headline"></vue-numeric>
+                <h4 class="headline">{{ totalAmount | currency('$', 0)}}</h4>
               </v-card-title>
               <v-card-text>
                 <v-layout v-if="selectedStudents.length === 0">
@@ -142,8 +142,8 @@
               </v-card-text>
 
               <v-card-actions>
-                <span class="headline">TOTAL:
-                  <vue-numeric currency="$" separator="," v-model="totalAmount"></vue-numeric>
+                <span class="headline">
+                  TOTAL: {{ totalAmount | currency('$', 0) }}
                 </span>
                 <v-spacer></v-spacer>
                 <v-btn
@@ -185,14 +185,12 @@ import { mapState } from 'vuex'
 import Portis from '@portis/web3';
 import Web3 from 'web3';
 import { ABI } from './abi.js';
-import VueNumeric from 'vue-numeric'
+import Vue2Filters from 'vue2-filters'
 
 
   export default {
 
-    components: {
-      VueNumeric
-    },
+    mixins: [Vue2Filters.mixin],  
 
     data() {
       return {
