@@ -92,7 +92,7 @@
     </v-layout>
     <v-footer fixed class="pa-5" color="secondary">
       <v-layout align-center justify-space-between row wrap>
-        <v-flex xs-12>
+        <v-flex>
 
           <v-btn
             flat
@@ -107,7 +107,11 @@
             max-width="800"
           >
             <v-card light>
-              <v-card-title class="title secondary white--text" >Review Students</v-card-title>
+              <v-card-title class="title secondary white--text" >
+                Review Students
+                <v-spacer></v-spacer>
+                <vue-numeric currency="$" separator="," v-model="totalAmount" class="text-xs-center headline"></vue-numeric>
+              </v-card-title>
               <v-card-text>
                 <v-layout v-if="selectedStudents.length === 0">
                   No students selected
@@ -139,20 +143,33 @@
               </v-card-text>
 
               <v-card-actions>
+                <span class="headline">TOTAL: 
+                  <vue-numeric currency="$" separator="," v-model="totalAmount"></vue-numeric>
+                </span>
                 <v-spacer></v-spacer>
+                <v-btn
+                  v-if="selectedStudents.length > 0"
+                  class="primary"
+                  large
+                  @click="confirmInvestment"
+                >
+                  Confirm Investment
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
 
         </v-flex>
         <v-spacer></v-spacer>
-        <v-flex xs-12>
+        <v-flex>
+
           <v-btn
+            v-if="selectedStudents.length > 0"
             class="primary"
             large
-            @click="confirmInvestment"
+            @click="selectedStudentsDialog = true"
           >
-            Confirm Investment
+            Review the investment
           </v-btn>
         </v-flex>
 
@@ -169,9 +186,14 @@ import { mapState } from 'vuex'
 import Portis from '@portis/web3';
 import Web3 from 'web3';
 import { ABI } from './abi.js';
+import VueNumeric from 'vue-numeric'
 
 
   export default {
+
+    components: {
+      VueNumeric
+    },
 
     data() {
       return {
@@ -182,7 +204,10 @@ import { ABI } from './abi.js';
     },
 
     computed:{
-      ...mapState(['schools'])
+      ...mapState(['schools']),
+      totalAmount(){
+        return this.selectedStudents.length * 10000
+      }
     },
 
     mounted() {

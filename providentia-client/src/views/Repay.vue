@@ -14,21 +14,27 @@
           </v-card-title>
           <v-card-text>
             <v-layout row wrap class="text-xs-center mt-2">
+              <!--
               <v-flex xs12 md3>
                 <vue-numeric currency="$" separator="," v-model="stats.remaingTotal" class="text-xs-center headline"></vue-numeric>
                 <p>Remaining Amount to repay</p>
+              </v-flex>
+              -->
+              <v-flex xs12 md3>
+                <vue-numeric currency="$" separator="," v-model="stats.currentMonthlyRepayment" class="text-xs-center headline"></vue-numeric>
+                <p>current monthly repayment</p>
               </v-flex>
               <v-flex xs12 md3>
                 <h4 class="headline">{{stats.remainingMonths}}</h4>
                 <p>months to the end</p>
               </v-flex>
               <v-flex xs12 md3>
-                <vue-numeric currency="$" separator="," v-model="stats.currentMonthlyRepayment" class="text-xs-center headline"></vue-numeric>
-                <p>current monthly repayment</p>
-              </v-flex>
-              <v-flex xs12 md3>
                 <vue-numeric currency="$" separator="," v-model="stats.currentAnnualSalary" class="text-xs-center headline"></vue-numeric>
                 <p>current annual salary</p>
+              </v-flex>
+              <v-flex xs12 md3>
+                <h4 class="text-xs-center headline">17%</h4>
+                <p>% of your annual salary</p>
               </v-flex>
             </v-layout>
 
@@ -97,7 +103,6 @@ import { ABI } from './abi.js';
   components: {
     VueNumeric
   },
-
 
     data() {
       return {
