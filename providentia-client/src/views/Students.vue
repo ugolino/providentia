@@ -136,8 +136,7 @@ import { ABI } from './abi.js';
           this.snackbar = true
         const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
         const web3 = new Web3(portis.provider);
-
-        const providentia = new web3.eth.Contract(ABI,'0x890597C86d9B3773C15BF76c141C67B2393Ba52e');
+        const providentia = new web3.eth.Contract(ABI,'0xf1a212c46283BD34e2c100FcD125A915A2d8A269');
         //const providentia = contract.at('0x9f2f52F3B254Ca497bc88056518a70A5FbcfA650');
         console.log(web3);
         portis.onLogin((walletAddress, email, reputation) => {

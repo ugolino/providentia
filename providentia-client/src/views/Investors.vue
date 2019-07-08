@@ -219,11 +219,10 @@ import { ABI } from './abi.js';
       confirmInvestment(){
         const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
         const web3 = new Web3(portis.provider);
-        var abi = require('human-standard-token-abi')
+        const abi = require('human-standard-token-abi')
 
-        const providentia = new web3.eth.Contract(ABI,'0x890597C86d9B3773C15BF76c141C67B2393Ba52e');
-        const daiToken = new web3.eth.Contract(abi, '0x3F2B8Aa1A9b5b855063612557aeA8103886834BC');
-        var amountSend = 10000
+        const providentia = new web3.eth.Contract(ABI,'0xf1a212c46283BD34e2c100FcD125A915A2d8A269');
+        const daiToken = new web3.eth.Contract(abi, '0xcFFd2f214b5C113F86Be76853dD7276aBB1767B7');
         const tokenAmountHex =  web3.utils.toHex(10000)
 
         portis.onLogin((walletAddress, email, reputation) => {

@@ -33,7 +33,7 @@
             </v-layout>
 
             <v-layout row wrap align-content-space-between mt-4>
-              
+
               <v-flex xs12 md6>
                 <h4 class="text-xs-center mb-2">Months to pay</h4>
                 <v-list-tile
@@ -44,7 +44,7 @@
                     <v-list-tile-title>{{ repayment.month }}</v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>
-                    <v-btn 
+                    <v-btn
                       class="primary"
                       @click="repay(stats.currentMonthlyRepayment)"
                     >
@@ -66,7 +66,7 @@
                     <v-list-tile-title>{{ repayment.month }}</v-list-tile-title>
                   </v-list-tile-content>
                   <v-list-tile-action>
-                    <v-icon 
+                    <v-icon
                       color="primary"
                       >
                       check
@@ -79,7 +79,7 @@
 
 
           </v-card-text>
-           
+
         </v-card>
       </v-flex>
     </v-layout>
@@ -88,6 +88,9 @@
 
 <script>
 import VueNumeric from 'vue-numeric'
+import Portis from '@portis/web3';
+import Web3 from 'web3';
+import { ABI } from './abi.js';
 
   export default {
 
@@ -100,11 +103,11 @@ import VueNumeric from 'vue-numeric'
       return {
         stats:
         {
-          remaingTotal: 13600,
+          remaingTotal: 10000,
           remainingMonths: 12,
           totalMonths: 15,
           currentAnnualSalary: 80000,
-          currentMonthlyRepayment: 1130,
+          currentMonthlyRepayment: 833,
         },
         payments: [
           {
@@ -181,11 +184,28 @@ import VueNumeric from 'vue-numeric'
     },
 
     mounted() {
-      
+
     },
     methods: {
       repay(amount){
         console.log(amount)
+
+        const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
+        const web3 = new Web3(portis.provider);
+        const abi = require('human-standard-token-abi')
+        const providentia = new web3.eth.Contract(ABI,'0xf1a212c46283BD34e2c100FcD125A915A2d8A269');
+        const daiToken = new web3.eth.Contract(abi, '0xcFFd2f214b5C113F86Be76853dD7276aBB1767B7');
+
+        portis.onLogin((walletAddress, email, reputation) => {
+
+          daiToken.methods.approve(providentia.address, 833).send({
+            from: walletAddress
+          })
+          providentia.methods.repayLoan.send({from:walletAddress})
+
+        })
+
+        portis.showPortis();
       }
     }
   }
