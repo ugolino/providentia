@@ -19,7 +19,7 @@
  */
 
 var HDWalletProvider = require("truffle-hdwallet-provider");
-var mnemonic = "";
+var mnemonic = "soap naive assault frozen jungle describe aunt you cherry hen smooth oval tree crawl brown";
 
 // const HDWalletProvider = require('truffle-hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
@@ -66,7 +66,7 @@ module.exports = {
     // NB: It's important to wrap the provider as a function.
      ropsten: {
        provider: function() {
-        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/PROJECT_ID")
+        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/4b50e22d04d74caa860b06e68ec44937")
       },
       network_id: "*"
     }

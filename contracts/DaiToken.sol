@@ -49,7 +49,7 @@ contract DaiToken is ERC20Interface, Ownable {
     constructor() public {
         symbol = "DAI";
         name = "Dai StableCoin";
-        decimals = 16;
+        decimals = 0;
         _totalSupply = 100000000000000000000000;
         balances[msg.sender] = _totalSupply;
         emit Transfer(address(0), msg.sender, _totalSupply);

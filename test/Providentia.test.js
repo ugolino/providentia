@@ -103,7 +103,7 @@ contract('Token', async function(accounts) {
 
         //await daiToken.transfer(accounts[0], 5000, {from:accounts[3]})
         //I will use the owner of the account to make the Approve transaction
-        await daiToken.approve(providentia.address, 2000, {from: accounts[2]});
+        await daiToken.approve(providentia.address, web3.utils.toHex(2000), {from: accounts[2]});
 
 
         await providentia.addMoneyPool(accounts[8], {from: accounts[2]});
@@ -121,14 +121,15 @@ contract('Token', async function(accounts) {
 
      it('should fund the Loan completely', async function() {
 
-       await daiToken.approve(providentia.address, 10000, {from: accounts[2]});
+       await daiToken.approve(providentia.address, web3.utils.toHex(20000), {from: accounts[2]});
 
+       var tesd = await daiToken.allowance(accounts[2], providentia.address)
+       console.log(tesd.toString())
        await providentia.addMoneyPool(accounts[8], {from: accounts[2]});
 
-       var balk = await daiToken.balanceOf(accounts[2]);
+       var balk = await daiToken.balanceOf(providentia.address);
 
        console.log(balk.toString());
-
        var arrayInv = await providentia.Investors(0);
 
        var studentLoans = await providentia.addressToLoan(arrayInv._addressFunded);
