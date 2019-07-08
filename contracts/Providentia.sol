@@ -83,26 +83,38 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       uint idNFT;
     }
 
+    // Array used to track Investor loans
     FunderTokens[] public Investors;
 
+    // Array used to store Student data
     StudentData[] public Students;
 
+    // Address where the tokens will be minted, in V2 this will change
     address[] sendTokens ;
 
+    // Amount of tokens to mint for ERC1155 FT( Fungible Tokens)
     uint[] valueSend = [100];
 
+    // Address of the Stablecoin, for now, DAI is supported
     address stableCoinAddress ;
 
+    // Address to interact with ERC1155 token
     ERC1155MixedFungibleMintable _token;
 
-    uint8 tknDecimals;
-
+    /**
+      @notice Modifier to check if the Student already request a loan,
+      amountDAI will never be 0 if the Student has requested a loan
+    */
 
     modifier hasRequestedLoan(){
-      // Check if Student has already requested a loan
         require( addressToLoan[msg.sender].amountDAI == 0, "User has already initiated a Loan process");
         _;
     }
+
+    /**
+      @notice Modifier to check if the addressToFund has already a funded loan
+      @param _addressToFund Address of the Student to fund
+    */
 
     modifier hasFundedLoan(address _addressToFund){
       require( addressToLoan[_addressToFund].loanFunded == false && addressToLoan[_addressToFund].endDate != 0
@@ -110,10 +122,20 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
       _;
     }
 
+    /**
+    @notice Modifier to check if a student has a pending loan
+    */
+
     modifier hasActiveLoan(){
       require(studentHasLoan[msg.sender] == true, "This address doesn't have a loan associated");
       _;
     }
+
+    /**
+      @notice Modifier to check if the msg.sender is an approved school
+      @param _addressFunded Address of the Student to fund
+      @dev School can only be added by the contract Owner to avoid misbehavior
+    */
 
     modifier onlySchool(address _addressFunded){
       require( addressToUniversity[addressToData[_addressFunded].university] == msg.sender,
@@ -122,8 +144,11 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
     }
 
     constructor(address _stableCoinAddress, ERC1155MixedFungibleMintable _tokenIERC1155) public{
+      // Contract address of the stableCoin
         stableCoinAddress = _stableCoinAddress;
+      // Contract address of the ERC1155 token
         _token = _tokenIERC1155;
+      // Address of the owner of NFT and FT at creation stage
         sendTokens.push(msg.sender);
     }
 
@@ -167,11 +192,11 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
         require(msg.sender == addressToUniversity[_university], "Sender is not a registered university");
 
-        // Mint NFT
+        // Mint NFT ( Non-Fungible Token )
         uint _type = _token.create(_uri, true);
         // Send tokens to owner
         _token.mintNonFungible(_type, sendTokens);
-        // Mint FT
+        // Mint FT ( Fungible Token)
         uint _id = _token.create(_uri, false);
         // Send tokens to owner
         _token.mintFungible(_id, sendTokens, valueSend );
@@ -188,6 +213,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           _type
           );
 
+        // Push the data to the array
         Students.push(StudentData(
           _addressStudent,
           _studentId,
@@ -198,7 +224,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
           _profAccount,
           _type));
 
-          // Trigger event
+        // Trigger event
         emit studentCreated(
           _addressStudent,
           _studentId,
@@ -266,9 +292,11 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         && ( tokenAmount % 100 ) == 0 ,
         "The amount sent must be a multiplier of 100. Each token costs 100 DAI");
 
+      // In case the investor sends exactly 10K, the loan will be funded
       if( tokenAmount == 10000 ){
         // Update shares of the Investor
          tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] += tokenAmount.div(100);
+         // Populate the array
          Investors.push(FunderTokens(msg.sender, 10000, _addressToFund, addressToData[_addressToFund].idNFT));
          // Add the amount funded to the mapping
          addressToBalance[_addressToFund] += tokenAmount;
@@ -290,7 +318,6 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         // Insert values in array
         Investors.push(FunderTokens(msg.sender, tokenAmount.div(100), _addressToFund, addressToData[_addressToFund].idNFT));
         // Transfer tokens to the contract
-
         stableCoinContract.transferFrom(msg.sender, address(this),10000 - addressToBalance[_addressToFund]);
         // Set true to loan funded, it's used to track stage of loan
         addressToLoan[_addressToFund].loanFunded = true;
@@ -300,7 +327,8 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         addressToInvestor[_addressToFund] = 10000;
 
       }
-else{
+      // Sends a random amount not higher than value in addressToBalance[_addressToFund]
+      else{
      // Update shares of the Investor
       tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] += tokenAmount.div(100);
       Investors.push(FunderTokens(msg.sender, 10000 - addressToBalance[_addressToFund].div(100), _addressToFund, addressToData[_addressToFund].idNFT));
@@ -391,6 +419,7 @@ else{
       for(uint i = 0; i<Investors.length; i++){
         if(Investors[i]._addressFunded == _addressFunded){
           uint _tokenAmount = tokensToValue[msg.sender][Investors[i].idNFT];
+          // Calculate share of the loan.
           uint share = (addressToRepaid[_addressFunded].mul(_tokenAmount)).div(100);
           //Reduce token value
           addressToInvestor[_addressFunded] -= share;
