@@ -193,23 +193,28 @@ import { ABI } from './abi.js';
     },
     methods: {
       repay(amount){
-        console.log(amount)
 
+        // Instantiate Portis
         const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
+        // Use portis as web3 provider
         const web3 = new Web3(portis.provider);
+        // Add basic ABI to interact with the contract
         const abi = require('human-standard-token-abi')
+        // Instantiate the providentia contract
         const providentia = new web3.eth.Contract(ABI,'0xf1a212c46283BD34e2c100FcD125A915A2d8A269');
+        // Instantiate the daiToken
         const daiToken = new web3.eth.Contract(abi, '0xcFFd2f214b5C113F86Be76853dD7276aBB1767B7');
 
         portis.onLogin((walletAddress, email, reputation) => {
-
-          daiToken.methods.approve(providentia.address, 833).send({
+          // Approve DAI tokens from student
+          daiToken.methods.approve(providentia.address, amount).send({
             from: walletAddress
           })
+          // Repay the loan with the amount of DAI approved
           providentia.methods.repayLoan.send({from:walletAddress})
 
         })
-
+        // Start Portis
         portis.showPortis();
       }
     }

@@ -134,29 +134,29 @@ import { ABI } from './abi.js';
       submitFinancing(){
         if (this.$refs.form.validate()) {
           this.snackbar = true
+
         const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
+        // Use portis as web3 provider
         const web3 = new Web3(portis.provider);
         const providentia = new web3.eth.Contract(ABI,'0xf1a212c46283BD34e2c100FcD125A915A2d8A269');
-        //const providentia = contract.at('0x9f2f52F3B254Ca497bc88056518a70A5FbcfA650');
-        console.log(web3);
         portis.onLogin((walletAddress, email, reputation) => {
-          console.log(walletAddress);
-          console.log(reputation);
           //In this case he is verified by Portis
-          //Reputation Should be 80 to have verified students, for now I will just override it
+          //Reputation Should be 80 to have verified students, for now I will just override it as it's undefined
           if(reputation == undefined){
-
-            var studentData = providentia.methods.addressToData(walletAddress).call({from: walletAddress}, (error, result) => {
+          //  Check walletAddress has the same studentId as the one in input
+          providentia.methods.addressToData(walletAddress).call({from: walletAddress}, (error, result) => {
               if(this.studentId.toString() == result[1].toString() ){
+                // Rquest the loan with 4% interest rate
                 providentia.methods.requestLoan(4).send({from: walletAddress});
               }
     });
 
           } else{
+            // Error for not having enough reputation
             alert("Not Enough reputation")
           }
         });
-
+        // Start Portis
         portis.showPortis();
 
         }
