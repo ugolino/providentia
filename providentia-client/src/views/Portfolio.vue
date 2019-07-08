@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md>
-    <v-layout row wrap>
+    <v-layout row wrap align-center>
       <v-flex xs12>
         <h1 class="text-xs-center py-2">Portfolio</h1>
         <p class="headline text-xs-center">Check how your investment are performing</p>
@@ -8,29 +8,48 @@
       <v-flex xs12>
         <v-card
           light
-          class="elevation-0"
+          class="elevation-0 my-2"
+          v-for="(investment, index) in investments" :key="index"
           >
-          <v-card-title secondary-title class="secondary white--text">
-            <v-layout row justify-space-between wrap>
-            <v-flex v-for="(header, index) in investmentsHeaders" :key="index" :class="header.class">
-              {{ header.text }}
-            </v-flex>
-            </v-layout>
-          </v-card-title>
-          <v-container>
-             <v-layout v-for="(investment, index) in investments" :key="index" row justify-space-between wrap xs12 class="py-3">
-              <v-flex xs12 md4>
+          <v-container class="text-xs-center">
+             <v-layout row justify-space-between align-center wrap xs12 class="py-3">
+              <v-flex xs12 md4 class="text-xs-left">
                 <b>{{investment.name}}</b>
               </v-flex>
               <v-flex xs4 md2>
-                {{investment.size}}
+                <vue-numeric currency="$" separator="," v-model="investment.size" class="text-xs-center"></vue-numeric>
+                <p class="mb-0">amount</p>
               </v-flex>
               <v-flex xs4 md2>
-                {{investment.createdAt}}
-              </v-flex>
-              <v-flex xs4 md2 class="text-sm-right">
                 <b>{{investment.return}}</b>
+                <p class="mb-0">Current Return</p>
               </v-flex>
+              <v-flex xs4 md2>
+                <v-btn flat small color="primary" @click="selectedInvestment === investment ? selectedInvestment = null : selectedInvestment = investment ">
+                  {{ selectedInvestment === investment ? "close" : 'details' }}
+                </v-btn>
+              </v-flex>
+              <template v-if="selectedInvestment === investment" >
+                <v-layout v-for="(student, index) in investment.students" :key="index" row justify-space-between align-center wrap class="pl-1 pt-4">
+                  <v-flex xs6 md4 class="text-xs-left">{{student.name}}</v-flex>
+                  <v-flex xs6 md2>
+                    <b>{{student.currentJob}}</b>
+                    <p class="mb-0">Current Employment</p>
+                  </v-flex>
+                  <v-flex xs6 md2>
+                    <b><vue-numeric currency="$" separator="," v-model="student.currentSalary" class="text-xs-center"></vue-numeric></b>
+                    <p class="mb-0">Current Salary</p>
+                    </v-flex>
+                  <v-flex xs6 md2>
+                    <b>{{student.monthsToRepay}}</b>
+                    <p class="mb-0">Months to repay</p>
+                  </v-flex>
+                  <v-flex xs6 md2>
+                    <b><vue-numeric currency="$" separator="," v-model="student.amountRepaid" class="text-xs-center"></vue-numeric></b>
+                    <p class="mb-0">Amount repaid to date</p>
+                    </v-flex>
+                </v-layout>
+              </template>
             </v-layout>
            
           </v-container>
@@ -43,8 +62,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import VueNumeric from 'vue-numeric'
 
   export default {
+
+    components: {
+      VueNumeric
+    },
     
     data() {
       return {
@@ -52,22 +76,47 @@ import { mapState } from 'vuex'
           {text: 'School', value: 'name', class: "xs6 md4" },
           {text: 'Amount', value: 'size', class: "xs3 md2" },
           {text: 'Date', value: 'createdAt', class: "xs3 md2" },
-          {text: 'Current Return', value: 'return', class: "xs3 md2 text-sm-right" }
+          {text: 'Current Return', value: 'return', class: "xs3 md2" },
+          {text: '', value: 'return', class: "xs3 md2" }
         ],
         investments: [
           {
             name: 'Lambda School',
-            size: 50000,
-            createdAt: "07/05/2019",
-            return: '19%',
+            size: 20000,
+            return: '18%',
+            students: [
+              {
+                name: 'Leonard Hofstadter',
+                currentJob: 'Google',
+                currentSalary: 70000,
+                monthsToRepay: 5,
+                amountRepaid: 9916.67
+              },
+              {
+                name: 'Bernadette Rostenkowski',
+                currentJob: 'Ph.D',
+                currentSalary: 90000,
+                monthsToRepay: 5,
+                amountRepaid: 12750
+              },
+              {
+                name: 'Sheldon Cooper',
+                currentJob: 'NASA',
+                currentSalary: 120000,
+                monthsToRepay: 8,
+                amountRepaid: 9196.67
+              },
+              {
+                name: 'Amy Farrah Fowler',
+                currentJob: 'Airbnb',
+                currentSalary: 80000,
+                monthsToRepay: 2,
+                amountRepaid: 14733.33
+              },
+            ]
           },
-          {
-            name: 'Purdue University Computer Science',
-            size: 50000,
-            createdAt: "07/04/2019",
-            return: '24%',
-          },
-        ]
+        ],
+        selectedInvestment: null,
       }
     },
 

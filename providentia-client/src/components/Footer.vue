@@ -17,10 +17,10 @@
           py-3
           white--text
           xs12
-          md8
+          md10
         >
-        Providentia is a project started during the ConsenSys Labs Virtual Hackathon. <br>
-        We believe in the power of education and our goal is to make it accessible to anyone by aligning incentives among schools, students and investors.<br> 
+        Providentia is a project started during the ConsenSys Labs Virtual Hackathon. 
+        We believe in the power of education and our goal is to make it accessible to anyone by aligning incentives among schools, students and investors.
         The project is constantly evolving and we love to hear your feedback. Feel free to <a href="https://www.linkedin.com/in/danugolini/" target="blank">contact us</a>
         </v-flex>
         <v-flex
@@ -30,7 +30,7 @@
           text-xs-right
           white--text
           xs12
-          md4
+          md2
         >
         Illustrations by <a href="https://icons8.com" target="_blank" class="secondary--text">Ouch.pics</a>
         </v-flex>

@@ -13,9 +13,10 @@ export default new Vuex.Store({
           'Pay <b>17%</b> of your annual income only if your salary reaches the <b>$4,166 monthly threshold</b>'
         ],
         stats: {
-          rate: '19%',
+          rate: '17%',
           employment_rate: '87%',
-          months_to_repay: '78'
+          months_to_repay: '12',
+          historical_returns: '29%',
         },
         students: [
           { 
@@ -43,9 +44,10 @@ export default new Vuex.Store({
           'Pay <b>14%</b> of your annual income only if your salary reaches the <b>$4,166 monthly threshold</b>'
         ],
         stats: {
-          rate: '24%',
+          rate: '14%',
           employment_rate: '97%',
-          months_to_repay: '88'
+          months_to_repay: '21',
+          historical_returns: '24%',
         },
         students: [
           { 

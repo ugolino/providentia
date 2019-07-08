@@ -14,7 +14,7 @@
           class="elevation-0 my-2 text-sm-left"
           >
           <v-divider light></v-divider>
-          <v-layout row wrap align-center justify-space-around>
+          <v-layout row wrap align-center justify-space-around py-4>
             <v-flex xs6 md1>
               <v-img
                 :src="school.logo"
@@ -27,15 +27,15 @@
             </v-flex>
             <v-flex xs4 md2 class="text-sm-center">
               <h4 class="headline">{{school.stats.rate}}</h4>
-              <p>expected interest rate</p>
+              <p class="mb-0">monthly interest rate</p>
             </v-flex>
             <v-flex xs4 md2 class="text-sm-center">
               <h4 class="headline">{{school.stats.employment_rate}}</h4>
-              <p>current empl. rate</p>
+              <p class="mb-0">current empl. rate</p>
             </v-flex>
             <v-flex xs4 md2 class="text-sm-center">
               <h4 class="headline">{{school.stats.months_to_repay}}</h4>
-              <p>avg months to repay</p>
+              <p class="mb-0">avg months to repay</p>
             </v-flex>
             <v-flex xs12 md3 class="text-sm-center">
               <v-btn
@@ -90,10 +90,9 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-footer fixed class="pa-5" color="secondary">
+    <v-footer height="auto" fixed class="pa-5" color="secondary">
       <v-layout align-center justify-space-between row wrap>
         <v-flex>
-
           <v-btn
             flat
             color="red darken-3"
