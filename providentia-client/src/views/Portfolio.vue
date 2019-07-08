@@ -17,11 +17,10 @@
                 <b>{{investment.name}}</b>
               </v-flex>
               <v-flex xs4 md2>
-                <vue-numeric currency="$" separator="," v-model="investment.size" class="text-xs-center"></vue-numeric>
-                <p class="mb-0">amount</p>
+                <h4><vue-numeric currency="$" separator="," v-model="investment.size" class="text-xs-center headline xs4"></vue-numeric></h4>
               </v-flex>
               <v-flex xs4 md2>
-                <b>{{investment.return}}</b>
+                <h4 class="headline">{{investment.return}}</h4>
                 <p class="mb-0">Current Return</p>
               </v-flex>
               <v-flex xs4 md2>
@@ -31,7 +30,7 @@
               </v-flex>
               <template v-if="selectedInvestment === investment" >
                 <v-layout v-for="(student, index) in investment.students" :key="index" row justify-space-between align-center wrap class="pl-1 pt-4">
-                  <v-flex xs6 md4 class="text-xs-left">{{student.name}}</v-flex>
+                  <v-flex xs12 md4 class="text-xs-center text-md-left"><b>{{student.name}}</b></v-flex>
                   <v-flex xs6 md2>
                     <b>{{student.currentJob}}</b>
                     <p class="mb-0">Current Employment</p>
