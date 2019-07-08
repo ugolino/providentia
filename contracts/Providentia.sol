@@ -97,8 +97,6 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     uint8 tknDecimals;
 
-    uint MAX_CAP = 10000;
-
 
     modifier hasRequestedLoan(){
       // Check if Student has already requested a loan
@@ -238,7 +236,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         //Check if the Student has been added before letting him request a loan
         require(bytes(addressToData[msg.sender].name).length != 0,
         "Student hasn't been added yet");
-        /*  This version will use a fixed value of 50k for the amount of loan to
+        /*  This version will use a fixed value of 10k for the amount of loan to
             request, the loan has a deadline of 5 years */
         addressToLoan[msg.sender] = StudentLoan(10000, _interestLoan, 0, now, now.addYears(5), false, false, false);
         // Instantiate the mapping to 0
@@ -268,8 +266,23 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         && ( tokenAmount % 100 ) == 0 ,
         "The amount sent must be a multiplier of 100. Each token costs 100 DAI");
 
+      if( tokenAmount == 10000 ){
+        // Update shares of the Investor
+         tokensToValue[msg.sender][addressToData[_addressToFund].idNFT] += tokenAmount.div(100);
+         Investors.push(FunderTokens(msg.sender, 10000, _addressToFund, addressToData[_addressToFund].idNFT));
+         // Add the amount funded to the mapping
+         addressToBalance[_addressToFund] += tokenAmount;
+         // Transfer DAI to the contract
+         stableCoinContract.transferFrom(msg.sender, address(this), tokenAmount);
+         // Set true to loan funded, it's used to track stage of loan
+         addressToLoan[_addressToFund].loanFunded = true;
+         // AddressToBalance will have 10k when the loan has been funded
+         addressToBalance[_addressToFund] +=10000 - addressToBalance[_addressToFund];
+         // Instantiate with an initial value of 10K as that's the amount of the loan
+         addressToInvestor[_addressToFund] = 10000;
+      }
       // If the investor sends more than the MAX_CAP which is 10K
-      if( tokenAmount >= 10000 - addressToBalance[_addressToFund] ){
+      else if( tokenAmount >= 10000 - addressToBalance[_addressToFund] ){
         /* Since each token costs 100 DAI, and the allowance is higher than
           10000 - addressToBalnce[_addressToFund] only the difference will be
           sent to the contract */
@@ -278,12 +291,12 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
         Investors.push(FunderTokens(msg.sender, tokenAmount.div(100), _addressToFund, addressToData[_addressToFund].idNFT));
         // Transfer tokens to the contract
 
-        stableCoinContract.transferFrom(msg.sender, address(this),MAX_CAP.sub(addressToBalance[_addressToFund]));
+        stableCoinContract.transferFrom(msg.sender, address(this),10000 - addressToBalance[_addressToFund]);
         // Set true to loan funded, it's used to track stage of loan
         addressToLoan[_addressToFund].loanFunded = true;
-        // AddressToBalance will have 50k when the loan has been funded
+        // AddressToBalance will have 10k when the loan has been funded
         addressToBalance[_addressToFund] +=10000 - addressToBalance[_addressToFund];
-        // Instantiate with an initial value of 50K as that's the amount of the loan
+        // Instantiate with an initial value of 10K as that's the amount of the loan
         addressToInvestor[_addressToFund] = 10000;
 
       }
