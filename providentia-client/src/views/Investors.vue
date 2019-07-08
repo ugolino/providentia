@@ -143,7 +143,7 @@
               </v-card-text>
 
               <v-card-actions>
-                <span class="headline">TOTAL: 
+                <span class="headline">TOTAL:
                   <vue-numeric currency="$" separator="," v-model="totalAmount"></vue-numeric>
                 </span>
                 <v-spacer></v-spacer>
@@ -242,39 +242,42 @@ import VueNumeric from 'vue-numeric'
         });
       },
       confirmInvestment(){
+        //Instantiate Portis
         const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
+        //Set Portis as the provider
         const web3 = new Web3(portis.provider);
+        //Use a basic standard ABI
         const abi = require('human-standard-token-abi')
-
+        // Set ABI and contract address
         const providentia = new web3.eth.Contract(ABI,'0xf1a212c46283BD34e2c100FcD125A915A2d8A269');
+        // Contract of dummy token, this is the stablecoin
         const daiToken = new web3.eth.Contract(abi, '0xcFFd2f214b5C113F86Be76853dD7276aBB1767B7');
+        // Amount to approve to the contract
         const tokenAmountHex =  web3.utils.toHex(10000)
 
-        portis.onLogin((walletAddress, email, reputation) => {
-          console.log(walletAddress);
 
-          for(var i=0; i<this.selectedStudents.length; i++){
-            try{
-              console.log( this.selectedStudents)
-              var firstName = this.selectedStudents[i -1].name.substr(0,this.selectedStudents[i -1].name.indexOf(' '))
-            } catch(err){}
+        //Login into portis
+        portis.onLogin((walletAddress, email, reputation) => {
+
+          for(var i=0; i<4; i++){
+                //There are 4 students registered, an investor with the frontend will be able only to fully fund a loan for V1
+              var firstName = this.selectedStudents[i].name.substr(0,this.selectedStudents[i].name.indexOf(' '))
             providentia.methods.Students(i).call({from: walletAddress}, (error, result) => {
               if(result){
 
-              console.log(result)
-              console.log(firstName)
                 if(firstName == result[2] ){
-                  console.log("yes")
+                  //Send the tokens to approve to the providentia contract
                   daiToken.methods.approve(providentia.address, tokenAmountHex).send({
                     from: walletAddress
                   })
+                  // Fund the student loan
                   providentia.methods.addMoneyPool(result[0]).send({from:walletAddress})
                 }
 }
           })
         }
 })
-
+  // Call portis interface
     portis.showPortis();
       }
     }
