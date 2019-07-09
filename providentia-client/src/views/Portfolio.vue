@@ -80,7 +80,7 @@ import Vue2Filters from 'vue2-filters'
         investments: [
           {
             name: 'Lambda School',
-            size: 20000,
+            size: 40000,
             return: '18%',
             students: [
               {
