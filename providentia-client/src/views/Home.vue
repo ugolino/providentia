@@ -52,7 +52,7 @@
                 ></v-img>
               </v-flex>
               <v-flex xs12 sm12 md6 pa-4>
-                <h2 class="headline font-weight-bold py-2">Are you a coding School / Bootcamp?</h2>
+                <h2 class="headline font-weight-bold py-2">Are you working for a coding School / Bootcamp?</h2>
                   <h4 class="subheading py-2">Providentia can help you with:</h4>
                   <h4 class="subheading py-2">Enroll more students due to a better financing</h4>
                   <h4 class="subheading py-2">Attract global investors to finance your students</h4>
