@@ -1,3 +1,41 @@
+# Providentia
+
+![Providentia Logo](https://providentia.network/providentia-logo-color.png)
+
+Decentralized marketplace for student’s financing
+
+Providentia is a project started during the ConsenSys Labs Virtual Hackathon. We believe in the power of education and our goal is to make it accessible to anyone by aligning incentives among schools, students and investors. 
+
+[Project Deck](https://docs.google.com/presentation/d/1fpNgI7xpRjkgp3_P1mCDgFF6ZIZ72lnBsix1NoXmHXY/edit?usp=sharing)
+
+[Demo](https://providentia.network)
+
+[Wiki](https://github.com/ugolino/providentia/wiki)
+
+# Client
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+# Contract
+
 Requirements:
 * Solidity 0.5
 * Ganache-cli
