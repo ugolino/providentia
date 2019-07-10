@@ -8,7 +8,7 @@ import "./SafeMath.sol";
 
 /**
     @title Providentia, providing students with loan
-    @dev See https://providentia.netlify.com/
+    @dev See https://providentia.network/
     @author https://github.com/Solexplorer
     Note: Some values are hardcoded in order to represent a specific usecase
  */
