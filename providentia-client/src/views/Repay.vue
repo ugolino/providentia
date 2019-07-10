@@ -196,7 +196,7 @@ import Vue2Filters from 'vue2-filters'
         // Instantiate the providentia contract
         const providentia = new web3.eth.Contract(ABI,'0xb31e7251465c4ff3428b669d701ca7702b6b4f81');
         // Instantiate the daiToken
-        const daiToken = new web3.eth.Contract(abi, '0x3dbb4152fa63ba3e21ee4dc8a9dc180eb740450c');
+        const daiToken = new web3.eth.Contract(abi, '0x3DBb4152fa63bA3e21eE4dc8A9DC180Eb740450C');
 
         portis.onLogin((walletAddress, email, reputation) => {
           // Approve DAI tokens from student

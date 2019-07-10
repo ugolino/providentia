@@ -1,4 +1,4 @@
-export const ABI =   [
+export const ABI =  [
   {
     "constant": true,
     "inputs": [

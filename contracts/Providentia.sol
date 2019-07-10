@@ -409,7 +409,7 @@ contract Providentia is Ownable, ERC20, ERC1155MixedFungibleMintable{
 
     /**
       @notice Function to accept the proposed loan
-      @param _addressFunded Address of the user funded
+      @param _addressFunded Address of the funded student 
     */
 
     function acceptLoan(address _addressFunded) public onlySchool(_addressFunded){
