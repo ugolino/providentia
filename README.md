@@ -12,6 +12,8 @@ Providentia is a project started during the ConsenSys Labs Virtual Hackathon. We
 
 [Wiki](https://github.com/ugolino/providentia/wiki)
 
+[Providentia Contract](https://ropsten.etherscan.io/address/0xb31e7251465c4ff3428b669d701ca7702b6b4f81)
+
 # Client
 
 ## Project setup
