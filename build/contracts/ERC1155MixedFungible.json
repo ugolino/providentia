@@ -14385,7 +14385,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-10T18:37:55.182Z",
+  "updatedAt": "2019-07-10T19:03:08.444Z",
   "devdoc": {
     "details": "Extension to ERC1155 for Mixed Fungible and Non-Fungible Items support\r The main benefit is sharing of common type information, just like you do when\r creating a fungible id.\r",
     "methods": {
