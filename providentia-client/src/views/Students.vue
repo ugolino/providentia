@@ -134,6 +134,9 @@ import { ABI } from './abi.js';
       submitFinancing(){
         if (this.$refs.form.validate()) {
           this.snackbar = true
+          
+          // In order to make the transaction, the student must be added by the School first otherwise the transaction 
+          // will fail, the sender must be one of the added students
 
         const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
         // Use portis as web3 provider
