@@ -49,6 +49,7 @@
               <v-flex xs12 sm12 md6 py-0>
                 <v-img
                   src="/school.png"
+                  height="100%"
                 ></v-img>
               </v-flex>
               <v-flex xs12 sm12 md6 pa-4>
