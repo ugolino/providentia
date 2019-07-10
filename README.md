@@ -6,9 +6,11 @@ Decentralized marketplace for student’s financing
 
 Providentia is a project started during the ConsenSys Labs Virtual Hackathon. We believe in the power of education and our goal is to make it accessible to anyone by aligning incentives among schools, students and investors. The project is constantly evolving and we love to hear your feedback.
 
-[Project Deck] (https://docs.google.com/presentation/d/1fpNgI7xpRjkgp3_P1mCDgFF6ZIZ72lnBsix1NoXmHXY/edit?usp=sharing)
-[Demo] (https://providentia.network)
-[Wiki] (https://github.com/ugolino/providentia/wiki)
+[Project Deck](https://docs.google.com/presentation/d/1fpNgI7xpRjkgp3_P1mCDgFF6ZIZ72lnBsix1NoXmHXY/edit?usp=sharing)
+
+[Demo](https://providentia.network)
+
+[Wiki](https://github.com/ugolino/providentia/wiki)
 
 # Client
 
