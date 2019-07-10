@@ -190,7 +190,7 @@ import Vue2Filters from 'vue2-filters'
 
   export default {
 
-    mixins: [Vue2Filters.mixin],  
+    mixins: [Vue2Filters.mixin],
 
     data() {
       return {
@@ -246,9 +246,9 @@ import Vue2Filters from 'vue2-filters'
         //Use a basic standard ABI
         const abi = require('human-standard-token-abi')
         // Set ABI and contract address
-        const providentia = new web3.eth.Contract(ABI,'0xf1a212c46283BD34e2c100FcD125A915A2d8A269');
+        const providentia = new web3.eth.Contract(ABI,'0xb31e7251465c4ff3428b669d701ca7702b6b4f81');
         // Contract of dummy token, this is the stablecoin
-        const daiToken = new web3.eth.Contract(abi, '0xcFFd2f214b5C113F86Be76853dD7276aBB1767B7');
+        const daiToken = new web3.eth.Contract(abi, '0x3dbb4152fa63ba3e21ee4dc8a9dc180eb740450c');
         // Amount to approve to the contract
         const tokenAmountHex =  web3.utils.toHex(10000)
 

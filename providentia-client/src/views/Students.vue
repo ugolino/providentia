@@ -134,14 +134,14 @@ import { ABI } from './abi.js';
       submitFinancing(){
         if (this.$refs.form.validate()) {
           this.snackbar = true
-          
-          // In order to make the transaction, the student must be added by the School first otherwise the transaction 
+
+          // In order to make the transaction, the student must be added by the School first otherwise the transaction
           // will fail, the sender must be one of the added students
 
         const portis = new Portis('5085594f-63c8-4e21-9b8c-94e30a82f111', 'ropsten');
         // Use portis as web3 provider
         const web3 = new Web3(portis.provider);
-        const providentia = new web3.eth.Contract(ABI,'0xf1a212c46283BD34e2c100FcD125A915A2d8A269');
+        const providentia = new web3.eth.Contract(ABI,'0xb31e7251465c4ff3428b669d701ca7702b6b4f81');
         portis.onLogin((walletAddress, email, reputation) => {
           //In this case he is verified by Portis
           //Reputation Should be 80 to have verified students, for now I will just override it as it's undefined
